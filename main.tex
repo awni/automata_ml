@@ -1,0 +1,151 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+
+\usepackage{titlesec}
+
+\titleformat{\section}
+  {\normalfont\fontsize{12}{15}\bfseries}{\thesection}{1em}{}
+
+\setlength{\parskip}{\baselineskip}%
+\setlength{\parindent}{0pt}
+\titlespacing{\section}{0pt}{12pt plus 4pt minus 2pt}{0pt}\relax
+
+\newcommand{\crypten}{C{\sc ryp}T{\sc en}}
+
+\title{Automatic Differentiation with Weighted Finite-State Automata}
+\author{
+  Awni Hannun\\
+  Facebook AI Research \\
+  \texttt{awni@fb.com}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  Weighted finite-state automata (WFSAs) are a critical building block in
+  modern automatic speech recognition. However, their use in conjuction with
+  ``end-to-end'' deep learning based systems has been limited due to the lack
+  of efficient frameworks with support for automatic differentiation. This
+  tutorial will cover the basics of WFSAs and review their application in
+  speech recognition. We will then explain the core concepts of automatic
+  differentiation and show it can be used with operations on WFSAs to rapidly
+  design and experiment with new and existing algorithms. We will conclude with
+  a discussion of the open challenges and opportunities for WFSAs to be a
+  central component in automatic speech recognition and related applications.
+\end{abstract}
+
+\section*{Proposal}
+
+This tutorial will consist of four parts:
+\begin{enumerate}
+    %% TODO citations
+  \item {\bf WFSAs.} We will gently introduce the core concepts of
+    WFSAs including the graph structure itself and several of the more
+    important operations such as the unary and binary operations, intersection
+    and shortest path algorithms. Several examples will be given throughout in
+    order to rapidly build intuition for those unfamiliar with this graph data structure.
+  \item {\bf WFSAs in Speech Recognition.} We will give examples of how WFSAs
+    are currently used in speech recognition. This give examples from both
+    explicit use cases, such as combining models in the decoding pipeline, and
+    implicit use cases such as in the construction of popular objective
+    functions such as Connectionist Temporal Classification~\cite{graves2006}
+    and Lattice-Free MMI~\cite{povey2016purely}.
+  \item {\bf Automatic Differentiation with WFSAs.} We will explain the basics
+    of automatic differentiation (AD), with a primary focus on reverse-mode AD.
+    We will show how operations on WFSAs can be extended to support gradient
+    computations and hence can be used with AD. We will conclude this section
+    by demonstrating how many existing algorithms can be expressed much more
+    compactly as operations on WFSTs in a framework which supports AD.
+  \item {\bf Broader Perspectives.} The tutorial will conclude with a
+    discussion on the challenges and benefits to using WFSTs in conjunction
+    with automatic differentiation. We will discuss opportunities for further
+    research and open problems in this field. This will include directions for
+    designing new algorithms which leverage WFSAs. We will also discuss
+    possible routes to improve the efficiency of WFSA operations through
+    research in parallel computing. Finally, we will touch upon the
+    possibilities in the design and implementation of WFSA-based frameworks
+    themselves which can play a critical role in enabling research in the field.
+\end{enumerate}
+
+Throughout the tutorial we will build intuition with numerous illustrative
+examples and actual (but simplified) example code using the GTN Python-based
+framework~\cite{gtn}.
+
+\section*{Relevance}
+Weighted automata are an essential component in speech
+processing~\cite{mohri2002}. However, they are often treated as a black-box
+tool used primarily at the decoding stage of the speech recognition pipeline.
+However, in the context of the right framework WFSAs can be a highly
+simplifying data structure not just for decoding but for designing and
+experimenting with new ``end-to-end'' loss functions and model architectures.
+
+Unquestionably, the success of deep learning is due in part to the continued
+evolution of tensor-based frameworks with a core component being automatic
+differentiation~\cite{paszke2019pytorch, collobert2011torch7,
+abadi2016tensorflow}. Recently, WFSAs are beginning to witness a similar trend
+on the back of the launch of two new frameworks with support for automatic
+differentiation. The first is GTN, developed at Facebook AI Research (lead by
+the proposal presenter)~\cite{gtn}. The second is K2~\cite{k2} and is intended
+to be the next generation of Kaldi, a leading open-source toolkit for automatic
+speech recognition~\cite{povey2011kaldi}.
+
+Hence familiarity with WFSAs their operations will be increasingly important to
+researchers and practitioners in the field of speech processing. For
+researchers interested in improving the state of frameworks for WFSAs,
+familiarity with the central components of these frameworks, in particular
+automatic differentiation, is also essential.
+
+\section*{Logistics}
+
+The proposed tutorial is for a single 3-hour session. The format will be a
+single presenter with slides and possibly a browser-based notebook for live
+demonstrations. No other special euipment or logistics are required.
+
+\section*{Presenter}
+
+{\bf Name:} Awni Hannun \\
+{\bf Email:} \texttt{awni@fb.com}
+
+{\bf Bio:} Awni Hannun is a research scientist at Facebook AI Research (FAIR),
+focusing on low-resource machine learning, algorithms for sequential data, and
+private and secure machine learning. Prior to Facebook, he worked as a research
+scientist in Baidu's Silicon Valley AI Lab, where he co-led the Deep Speech
+projects. He holds a Ph.D. in computer science from Stanford University.
+
+{\bf Relevant Expertise:}
+The presenter has over a decade of experience in speech recognition research
+and has published several highly cited papers related to speech and audio
+processing~\cite{hannun2014deep, maas2013, amodei2016deep}. He lead some of the
+early work in ``end-to-end'' speech recognition as one of the primary
+contributors of the Deep Speech automatic speech recognition
+system~\cite{hannun2014deep}. The presenter also has experience designing and
+implementing scalable speech recongition frameworks including production ASR
+systems at Baidu and Facebook~\cite{amodei2016deep, w2lcode, pratap2019} and
+frameworks for deep learning~\cite{flashlight}. Recently he lead the
+development of GTN~\cite{gtn, hannun2020differentiable}, a framework for
+automatic differentiation with WFSAs. The presenter has also written frequently
+read expository articles and tutorials on speech
+recognition~\cite{hannun2017sequence, awniblog}.
+
+\section*{Audience}
+
+This tutorial is intended to be accessible and applicable to a broad audience.
+One target group is researchers in the field of speech processing that could
+both benefit from and innovate in the use of WFSAs. A second target audience is
+industry specialists in both automatic speech recognition and algorithmically
+adjacent fields which rely on algorithms for real-valued structured data. These
+practitioners should also benefit from a more in depth understanding of WFSAs,
+automatic differentiation, and the union of the two.
+
+The tutorial assumes some familiarity with speech recognition and numerical
+optimization including the basics of deep neural networks, simple language
+models, and gradient descent. Familiarity with WFSAs is not a requirement.
+
+\bibliographystyle{unsrt}
+\bibliography{references}
+
+\end{document}
