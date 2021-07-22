@@ -1,0 +1,9 @@
+digraph FST {
+  margin = 0;
+  rankdir = LR;
+  label = "";
+  center = 1;
+  ranksep = "0.4";
+  nodesep = "0.25";
+  0 [label = "(0, 0)", shape = circle, penwidth = 2.0, fontsize = 14, color = red, height = 0.5, fixedsize = true];
+}
