@@ -1,0 +1,37 @@
+\section{Acceptors and Transducers}
+\label{sec:acceptors_transducers}
+
+\subsection{Automata}
+\label{sec:automata}
+
+
+The broad class of graphs we are going to look at are finite-state automata.
+These include deterministic finite-state automata (DFAs) and non-deterministic
+finite-state automata (NFAs). More specifically we will consider a
+generalization of DFAs and NFAs called weighted finite-state acceptors (WFSAs).
+That's a mouthful, so we will just call them \emph{acceptors}. We will also consider
+a further generalization of an acceptor called a \emph{transducer} (weighted
+finite-state transducers or WFSTs). The following figure shows the relation
+between these three graphs; transducers, acceptors, and automtata. Transducers
+are the most expressive in terms of their representational power, followed by
+acceptors followed by unweighted automata.
+
+%![wfsa_classes](figures/wfsa_classes.svg)
+%
+%Before we dive into acceptors and transducers, let's introduce some general graph terminology that we will use throughout. In the following graph a *state* or *node* is represented by a circle. The arrows represent connections between two states. We usually refer to these as *arcs* but sometimes also *edges*. The graph is directed since the connections between states are unidirectional arrows. The arcs in a graph can have labels. In the graph below the arc between states $0$ and $1$ has a label of $a$. Similarly, the arc between states $1$ and $2$ has a label of $b$. The graph is an example of a finite-state automata (FSA) or finite-state machine (FSM), so called because it has a finite number of nodes.
+%
+%![simple_automata](figures/simple_automata.svg)
+%
+%An automata is deterministic if for each state and label pair there is only one outgoing transition which matches that label. An automata is nondeterministic if multiple transitions leaving a state have the same label. The graphs below show an example of a deterministic and a nondeterministic automata. In general, we will allow acceptors and transducers to be nondeterministic.
+%
+%<div class="figure">
+%  <div class="img">
+%    <img src="figures/simple_dfa.svg"/>
+%  </div>
+%  <div class="img">
+%    <img src="figures/simple_nfa.svg"/>
+%  </div>
+%  <div class="caption" markdown="span">
+%     The graph on the left is deterministic whereas the graph on the right is nondeterministic.
+%  </div>
+%</div>
