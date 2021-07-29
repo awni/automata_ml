@@ -1,0 +1,10 @@
+digraph FST {
+  margin = 0;
+  rankdir = LR;
+  label = "";
+  center = 1;
+  ranksep = "0.5";
+  nodesep = "0.25";
+  0 [label = "0", shape = doublecircle, penwidth = 2.0, fontsize = 14];
+  0 -> 0 [label = "a/50\nb/20\nc/30", fontsize = 14];
+}
