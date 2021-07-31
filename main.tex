@@ -10,8 +10,9 @@
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage[numbers]{natbib}
-%\usepackage{parskip}
-%\usepackage{subcaption}
+
+\usepackage{subfiles}
+
 
 \usepackage[
   colorlinks=true,
@@ -37,10 +38,10 @@
 
 \tableofcontents
 
-\input{introduction}
-\input{acceptors_transducers}
-\input{basic_operations}
-\input{advanced_operations}
+\subfile{introduction}
+\subfile{acceptors_transducers}
+\subfile{basic_operations}
+\subfile{advanced_operations}
 
 \bibliographystyle{unsrt}
 \bibliography{references}
