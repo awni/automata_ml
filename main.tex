@@ -6,10 +6,15 @@
 \usepackage[english]{babel}
 \usepackage{booktabs}
 \usepackage[labelfont=bf]{caption}
-\usepackage{fullpage}
+\usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage[numbers]{natbib}
+\usepackage{parskip}
+
+\usepackage[vcentering,dvips]{geometry}
+\geometry{papersize={7in,9in},bottom=3pc,top=5pc,left=5pc,right=5pc,bmargin=4.5pc,footskip=18pt,headsep=25pt}
+
 
 \usepackage{subfiles}
 
@@ -24,7 +29,12 @@
   runcolor=black,
   urlcolor=black]{hyperref}
 
-\title{A Tutorial on Weighted Automata in Machine Learning}
+\fancyhf{}
+\lhead{\leftmark}
+\rhead{\thepage}
+\pagestyle{fancy}
+
+\title{A Tutorial on Weighted Automata \\ in Machine Learning}
 \author{Awni Hannun\footnote{
   Send correspondence to
   \href{mailto:awni.hannun@gmail.com}{awni.hannun@gmail.com}}}

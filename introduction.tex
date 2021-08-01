@@ -4,6 +4,89 @@
 \section{Introduction}
 \label{sec:introduction}
 
+Relatively speaking, finit-state automata have a long history of application in
+machine learning. The majority of these applications involve sequential data.
+For example, they are or have been used in speech recognition, machine
+translation and other natural language tasks, and protein function analysis and
+other tasks in computational biology.
+
+However, the application of these data structures in machine learning is far
+from main stream. In fact, their use is most likely decreasing with the advent
+of end-to-end deep learning. In the past, complex machine-learning systems,
+like those used in speech recognition, involved many specialised
+hand-endingeered components. The trend is now for the opposite. Most
+machine-learning applications involve a single, monolithic neural network. Both
+of these extremes have advantages and both have disadvantages.
+
+I believe on of the primary advantages of automata in machine learning is their
+ability to harness the best of both worlds. Automata are capable of retaining
+many if not all of the advantages of a multi-componenet, hand-engineered system
+as well as those of a monolothic deep neural network. The next few
+paragraphs explain some of these advantages and the regime to which they apply.
+
+\paragraph{Modular:} One of the advantages of multi-component, hand-engineered
+systems over monolothic neural networks is modularity. In traditional software
+design modularity is usually a good thing. Modular systems are easier to
+develop since part of the system can be changed without needing to change the
+rest. In machine-learning systems, modularity is useful to avoid retraining the
+entire system when only part of the model needs to be updated. Modularity can
+also be useful when the individual modules can be reused. For example, speech
+recognition systems are built from acoustic models and language models.
+Acoustic models can be language agnostic and used for different languages.
+Language models are general text based models which can be used in many
+different tasks.
+
+\paragraph{Compound errors:} A primary disadvantage of modular systems is that
+errors compound. Each module is typically developed in isolation and hence
+unaware of the types of errors made by the modules from which it receives
+input. Monolothic systems on the other hand can be thought of as being
+constructed from many sub-components all of which are jointly optimized towards
+a single goal. These subcomponents can learn to compensate for the mistakes
+made by the others and in general work together more seamlessly.
+
+\paragraph{Adaptable:} Modular systems are typically more adaptable than
+monolothic systems. A machine-learning model which is tuned for one domain
+usually won't work in another domain without retraining at least part of the
+model on data from the new domain. Monolothic neural networks typically require
+a lot of data and hence are difficult to adapt to new domains. Modular systems
+must also be adapted. However, in some cases only one or a small subset of the
+modules need be updated, making the adaptation problem simpler.
+
+\paragraph{Learns from data:} One of the hallmarks of deep neural networks is
+their ability to continue to learn and improve with larger data sets. Because
+of the many assumptions hard-wired into more traditional modular systems, they
+hit a performance ceiling much earlier as data set sizes increase. Retaining
+the ability to learn when data is plentiful is a critical features of any
+machine-learning system.
+
+\paragraph{Prior knowledge:} On the other hand, one of the downsides of deep
+neural networks is their need for large data sets to yield even decent
+performance. Encoding prior knowledge into a model improves sample efficiency
+and hence reduces the need for data. Encoding prior knowledge into a deep
+neural networks is not easy. In some cases, encoding prior knowledge into a
+neural network can be done, such as the translation invariance of convolutions.
+However, in general, this is not so straightforward. Modular systems by their
+very nature incorporate prior knowledge for a give task. Each module is
+designed and built to solve a specific sub-task, usually with plenty of
+potential for customization towards that task.
+
+Modular and monolothic systems have complementary advantages with respect to
+these four traits. Ideally we could construct machine-learning models which
+retain the best of each. Automata-based modeling is one possibility which will
+task us a step closer towards this goal.  However, to use automata to their
+full potential we have to overcome a couple of challenges. The key is enabling
+the use of weighted automata in training the model itself. This requires 1)
+efficient implementations 2) easy to use frameworks which support automatic
+differentiation.
+
+%% Other advantages:
+
+% differentiable decoding to limit exposure bias
+% normalize only at the ouptut, avoid label bias
+% ease of research: many graph based operations can be instead be directly written in software. A new way to separate data from code. The graph is the data, the code is the operations on the graph.
+
+%% Comparison to modern deep learning with table of ops comparisons
+
 \begin{table}[ht]
     \caption{The analogous operations between tensors and
     automata (acceptors and transducers).}
