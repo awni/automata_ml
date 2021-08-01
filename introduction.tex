@@ -4,25 +4,42 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Relatively speaking, finit-state automata have a long history of application in
-machine learning. The majority of these applications involve sequential data.
-For example, they are or have been used in speech recognition, machine
+Relatively speaking, finite-state automata have a long history of application
+in machine learning. The majority of these applications involve sequential
+data.  For example, they are or have been used in speech recognition, machine
 translation and other natural language tasks, and protein function analysis and
 other tasks in computational biology.
 
 However, the application of these data structures in machine learning is far
-from main stream. In fact, their use is most likely decreasing with the advent
-of end-to-end deep learning. In the past, complex machine-learning systems,
-like those used in speech recognition, involved many specialised
-hand-endingeered components. The trend is now for the opposite. Most
-machine-learning applications involve a single, monolithic neural network. Both
-of these extremes have advantages and both have disadvantages.
+from main stream. In fact, their use likely decreased with the advent of
+end-to-end deep learning. The recent development of frameworks for automatic
+differentation with automata suggests there may be renewed interest in the
+application of automata to machine learning.
 
-I believe on of the primary advantages of automata in machine learning is their
+This tutorial introduces weighted automata and their operations. Once this
+fundamental data structure is well understood, we then continue to build our
+intuition by working through some extended examples.  I hope at minimum this
+tutorial engenders an appreciation for the potential of automata in machine
+learning. Ideally for some readers this tutorial will be a launching point for
+the incorporation of automata in machine-learning research and applications.
+
+However, before launching into the more technical content, let's start with
+some broader perspectives in order to motivate the use of automata in machine
+learning.
+
+\subsection{Monolothic or Modular}
+
+In the past, complex machine-learning systems, like those used in speech
+recognition, involved many specialised hand-endingeered components. The trend
+is now for the opposite. Most machine-learning applications involve a single,
+monolithic neural network. Both of these extremes have advantages and both have
+disadvantages.
+
+I believe a primary advantage of automata in machine learning is their
 ability to harness the best of both worlds. Automata are capable of retaining
 many if not all of the advantages of a multi-componenet, hand-engineered system
-as well as those of a monolothic deep neural network. The next few
-paragraphs explain some of these advantages and the regime to which they apply.
+as well as those of a monolothic deep neural network. The next few paragraphs
+explain some of these advantages and the regime to which they apply.
 
 \paragraph{Modular:} One of the advantages of multi-component, hand-engineered
 systems over monolothic neural networks is modularity. In traditional software
@@ -79,27 +96,132 @@ the use of weighted automata in training the model itself. This requires 1)
 efficient implementations 2) easy to use frameworks which support automatic
 differentiation.
 
-%% Other advantages:
+\subsection{Advantages of Differentiable Automata}
 
-% differentiable decoding to limit exposure bias
-% normalize only at the ouptut, avoid label bias
-% ease of research: many graph based operations can be instead be directly written in software. A new way to separate data from code. The graph is the data, the code is the operations on the graph.
+A key to unlocking the potential of automata in machine learning is enabling
+their use during the training stage machine-learning models. All of the
+operations I introduce later are differentiable with respect to the arc weights
+of their input graphs. This means that weighted automata and the operations on
+them can be used in a similar manner as tensors and their corresponding
+operations are used in deep learning. Operations can be chained to form complex
+computation graphs. Some of the weighted automata which are input to the
+computation graph can have learnable parameters. These parameters can be
+optimized using backpropagation and gradient descent.
 
-%% Comparison to modern deep learning with table of ops comparisons
+Automatic differentiation makes computing gradients for complex computation
+graphs much simpler. Hence combining automatic differentiation with weighted
+automata is improtant to enabling their use in training machine-learning
+models.
+
+Sophisticated machine-learning systems often separate the training and
+inference stages of the algorithm. Multiple models are trained in isolation via
+one code path. For prediction on new data, the individual models are combined
+and rely on a different code path. The constraints of the two regimes (training
+and inference) are such that separation from a modeling and software
+perspective is often the best option. However, this is not without drawbacks.
+
+First, from a pragmatic standpoint, having separate logic and code paths for
+training and inference requires extra effort and usually results in bugs from
+subtle mismatches between the two paths. Second, from a modeling standpoint,
+optimizing individual models in isolation and then combining them is often
+sub-optimal.
+
+One of the benefits of combining automatic differentiation with weighted
+automata is the potential to bring the training and inference stages closer
+together. For example, speech recognizers often use hand-implemented loss
+functions at training time. However, the decoder (used for inference) brings
+together mutliple models represented as graphs (lexicon, language model,
+acoustic model, \emph{etc.}) in a completely different code path. By enabling
+automatic differentiotion with graphs, the decoding stage can also be used for
+training.  This has the potential to both simplify and improve the performance
+of the system.
+
+Loss functions like Connectionist Temporal Classification, the Automatic
+Segmentation criterion, and Lattice-free Maximum Mutual Information are
+implmeented with custom and highly optimized software. However, these loss
+functions can all be implemented using graphs and (differentiable) operations
+on graphs.
+
+This separation of code from data, where graphs represent the data and
+operations on graphs represent the code, has several benefits. First, the separation
+simplifies the software. Second, the separation facilitates research by making
+it easier to experiment with new ideas. Lastly, the separation enables the
+optimization of graph operations to be more broadly shared.
+
+\subsection{Comparison to Tensors}
+
+Modern deep learning is built upon the tensor data structure and the many
+operations which take as input one or more tensors. Some of the more common
+operations include matrix multiplicatoin, 2-dimensional convolution, reduction
+operations, and unary and binary operations.
+
+Automata are an alternative data structure and the operations are quite
+different in general. However, one can draw a loose analogy between the
+operations on automata and those on tensors.
+Table~\ref{tab:tensor_wfst_analogy} shows some of the common operations on
+tensors and their analogous operations on automata. The analogy is quite loose,
+but still useful at the very least as a mnemonic device and perhaps can help
+build intuition for the various operations on graphs.
+
+For example, superficially the formula for matrix multiplication and transducer
+composition are quite similar. Assume we have three matrices such that $\mC = \mA
+\mB$, then the $(i, j)$ element of $\mC$ is given by:
+\begin{equation}
+    C_{ij} = \sum_{k} A_{ik} B_{kj}
+\end{equation}
+Assume we have three transducers (graphs) where $\gC$ is the composition of
+$\gA$ and $\gB$ , then the score of the path pair $(\vu, \vv)$ is given by:
+\begin{equation}
+    \mathcal{C}(\vu, \vv) = \LSE_{\vr} \mathcal{A}(\vu, \vr) + \mathcal{B}(\vr, \vv),
+\end{equation}
+where $\LSE$ is the \emph{log-sum-exp} operation (we will describe composition
+in much more detail in section~\ref{sec:advanced_operations}). Both operations
+take on the form of an accumulation over an inner variable of values from each
+of the inputs. In matrix multiplication this is the shared dimnsion of the
+matrices $\mA$ and $\mB$. In graph composition the inner variable is the shared
+path $\vr$.
 
 \begin{table}[ht]
-    \caption{The analogous operations between tensors and
+    \renewcommand{\arraystretch}{1.4}
+    \caption{The table shows loosely analogous operations between tensors and
     automata (acceptors and transducers).}
     \centering
-    \begin{tabular}{c c}
+    \begin{tabular}{l l l}
     \toprule
-        Tensor & Automatai \\
+        Tensor & Automata \\
     \midrule
         Matrix multiplication, convolution & Intersect, compose \\
-        Reduction ops (sum, prod, ...) & Shortest distance (forward, Viterbi) \\
+        \rowcolor{Gray} Reduction ops (sum, prod, \emph{etc.}) & Shortest distance (forward, Viterbi) \\
+        Unary ops (power, negation, \emph{etc.})  & Unary ops (closure) \\
+        \rowcolor{Gray} $n$-ary ops (addition, subtraction, \emph{etc.})  & $n$-aryops (concatenation, union) \\
     \bottomrule
     \end{tabular}
     \label{tab:tensor_wfst_analogy}
 \end{table}
+
+A higher-level analogy to tensor-based deep learning can also be made. Modern
+machine-learning frameworks like PyTorch and TensorFlow (and their ancestors
+like Torch and Theano) were critical to the success of tensor-based deep
+learning. These frameworks include support for automatic differentiation. They
+also provide easy to use access to extremely efficient implementations of the
+core operations. In the same way, automata-based machine learning should
+benefit from frameworks with these features. We are just beginning to see new
+developments in frameworks for automata-based machine learning including
+GTN\footnote{I am a primary author of the GTN framework which is open source at
+\url{https://github.com/gtn-org/gtn}} and K2\footnote{The K2 framework is the
+successor of Kaldi and is open source at \url{https://github.com/k2-fsa/k2}}.
+Perhaps these will encourage the use of automata in machine learning.
+
+\subsection{Bibliographic Notes}
+
+%% On Transducers in ML
+%% a lot of Mohri's work
+
+%% On frameworks
+%% PyTorch, TensorFlow, Theano and Torhc
+%% Open FST
+
+%% On differentiable transducers
+%% graph transformer networks, GTN, K2
 
 \end{document}

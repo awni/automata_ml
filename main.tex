@@ -6,6 +6,7 @@
 \usepackage[english]{babel}
 \usepackage{booktabs}
 \usepackage[labelfont=bf]{caption}
+\usepackage{color, colortbl}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
@@ -29,10 +30,14 @@
   runcolor=black,
   urlcolor=black]{hyperref}
 
+\definecolor{Gray}{gray}{0.9}
+
 \fancyhf{}
 \lhead{\leftmark}
 \rhead{\thepage}
 \pagestyle{fancy}
+
+\input{math_commands.tex}
 
 \title{A Tutorial on Weighted Automata \\ in Machine Learning}
 \author{Awni Hannun\footnote{
