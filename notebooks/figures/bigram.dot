@@ -1,0 +1,20 @@
+digraph FST {
+  margin = 0;
+  rankdir = LR;
+  label = "";
+  center = 1;
+  ranksep = "0.5";
+  nodesep = "0.45";
+  0 [label = "a", shape = doublecircle, penwidth = 2.0, fontsize = 14];
+  0 -> 0 [label = "a/p(a|a)", fontsize = 14];
+  0 -> 1 [label = "b/p(b|a)", fontsize = 14];
+  0 -> 2 [label = "c/p(c|a)", fontsize = 14];
+  1 [label = "b", shape = doublecircle, penwidth = 2.0, fontsize = 14];
+  1 -> 1 [label = "a/p(b|b)", fontsize = 14];
+  1 -> 0 [label = "b/p(a|b)", fontsize = 14];
+  1 -> 2 [label = "c/p(c|b)", fontsize = 14];
+  2 [label = "c", shape = doublecircle, penwidth = 2.0, fontsize = 14];
+  2 -> 2 [label = "c/p(c|c)", fontsize = 14];
+  2 -> 0 [label = "a/p(a|c)", fontsize = 14];
+  2 -> 1 [label = "b/p(b|c)", fontsize = 14];
+}
