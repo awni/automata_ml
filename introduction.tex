@@ -1,4 +1,5 @@
 \documentclass[main.tex]{subfiles}
+
 \begin{document}
 
 \section{Introduction}
@@ -174,12 +175,13 @@ $\gA$ and $\gB$ , then the score of the path pair $(\vu, \vv)$ is given by:
 \begin{equation}
     \mathcal{C}(\vu, \vv) = \LSE_{\vr} \mathcal{A}(\vu, \vr) + \mathcal{B}(\vr, \vv),
 \end{equation}
-where $\LSE$ is the \emph{log-sum-exp} operation (we will describe composition
-in much more detail in section~\ref{sec:advanced_operations}). Both operations
-take on the form of an accumulation over an inner variable of values from each
-of the inputs. In matrix multiplication this is the shared dimnsion of the
-matrices $\mA$ and $\mB$. In graph composition the inner variable is the shared
-path $\vr$.
+where $\LSE$ is the \emph{log-sum-exp} operation.
+%(we will describe composition
+%in much more detail in section~\ref{sec:advanced_operations}).
+Both operations take on the form of an accumulation over an inner variable of
+values from each of the inputs. In matrix multiplication this is the shared
+dimnsion of the matrices $\mA$ and $\mB$. In graph composition the inner
+variable is the shared path $\vr$.
 
 \begin{table}[ht]
     \renewcommand{\arraystretch}{1.4}
@@ -212,7 +214,7 @@ GTN\footnote{I am a primary author of the GTN framework which is open source at
 successor of Kaldi and is open source at \url{https://github.com/k2-fsa/k2}}.
 Perhaps these will encourage the use of automata in machine learning.
 
-\subsection{Bibliographic Notes}
+\subsection{History and Bibliographic Notes}
 
 %% On Transducers in ML
 %% a lot of Mohri's work
