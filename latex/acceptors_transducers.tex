@@ -15,7 +15,7 @@ That's a mouthful, so I will just call them \emph{acceptors}. We will also
 consider a further generalization of an acceptor called a \emph{transducer}
 (weighted finite-state transducers or WFSTs). Figure~\ref{fig:wfsa_closses}
 shows the relation between these three graphs; transducers, acceptors, and
-automtata. Transducers are the most expressive in terms of their
+automata. Transducers are the most expressive in terms of their
 representational power, followed by acceptors followed by unweighted automata.
 
 \begin{figure}
@@ -29,15 +29,15 @@ representational power, followed by acceptors followed by unweighted automata.
 \end{figure}
 
 Before we dive into acceptors and transducers, let's introduce some general
-graph terminology that I will use throughout. In the following graph a *state*
-or *node* is represented by a circle. The arrows represent connections between
-two states. We usually refer to these as *arcs* but sometimes also *edges*. The
-graph is directed since the connections between states are unidirectional
-arrows. The arcs in a graph can have labels. In
-figure~\ref{fig:simple_automata} the arc between states $0$ and $1$ has a label
-of $a$. Similarly, the arc between states $1$ and $2$ has a label of $b$. The
-graph is an example of a finite-state automata (FSA) or finite-state machine
-(FSM), so called because it has a finite number of nodes.
+graph terminology that I will use throughout. In the following graph a
+\emph{state} or \emph{node} is represented by a circle. The arrows represent
+connections between two states. We usually refer to these as \emph{arcs} but
+sometimes also \emph{edges}. The graph is directed since the connections
+between states are unidirectional arrows. The arcs in a graph can have labels.
+In figure~\ref{fig:simple_automata} the arc between states $0$ and $1$ has a
+label of $a$. Similarly, the arc between states $1$ and $2$ has a label of $b$.
+The graph is an example of a finite-state automata (FSA) or finite-state
+machine (FSM), so called because it has a finite number of nodes.
 
 \begin{figure}
     \centering
@@ -72,7 +72,7 @@ Let's start by constructing some very basic automata to get a feel for their
 various properties.
 
 The start state $s = 0$ has a bold circle around it. The accepting state $1$ is
-reprecented with concentric circles. Each arc has a label and a corresponding
+represented with concentric circles. Each arc has a label and a corresponding
 weight. So the first arc from state $0$ to state $1$ with the text $a/0$ means
 the label is $a$ and the weight is $0$. The fact that there is only a single
 label on each arc means this graph is an \emph{acceptor}. Since it has weights,
@@ -98,8 +98,8 @@ same state sequence but taking the arc with label $b$ when traversing from
 state $0$ to state $1$. The language of the acceptor is the set of all strings
 which are accepted by it. You may also encounter "recognized" used as a synonym
 for "accepted". Let the variable $\gA$ represent the above acceptor. In
-general, I'll use upercase script letters to represent graphs. Let
-$\mathcal{L}(\gA)$ denote the langauge of $\gA$. In this case $\mathcal{L}(\gA)
+general, I'll use uppercase script letters to represent graphs. Let
+$\mathcal{L}(\gA)$ denote the language of $\gA$. In this case $\mathcal{L}(\gA)
 = \{aa, ba\}$.
 
 There are different ways to compute the weight of a string accepted by the
@@ -109,13 +109,14 @@ $0 + 2 = 2$. Another option would be to multiply the weights. These two options
 correspond to interpreting the weights as either log probabilities or
 probabilities. We'll have more to say about this later.
 
-The below graph accepts the same string by multiple paths.
+The graph in figure~\ref{fig:multi_path} accepts the same sequence by multiple
+paths.
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/multi_path}
-    \caption{TODO}
-    \label{fig:simple_fsa}
+    \caption{An acceptor which has multiple paths for the same sequence, $aa$.}
+    \label{fig:multi_path}
 \end{figure}
 
 The string $aa$ is accepted along the state sequence $0 \rightarrow 2
@@ -128,17 +129,20 @@ scores as log probabilities. We'll use $\LSE(s_1, s_2)$ to denote the
 \begin{equation}
 \LSE(s_1, s_2) = \log \left( e^{s_1} + e^{s_2}\right).
 \end{equation}
-So the overall weight for the string $aa$ in the above graph is given by $\log
-\left(e^{0 + 2} + e^{1 + 3}\right) = 4.13$.
+So the overall weight for the string $aa$ in the above graph is given by:
+$$
+\log \left(e^{0 + 2} + e^{1 + 3}\right) = 4.13.
+$$
 
 Acceptors can have multiple start states and multiple accept states. In the
-below graph the states $0$ and $1$ are both start states, and the states $3$
-and $4$ are both accept states.
+graph in figure~\ref{fig:multi_start_accept}, the states $0$ and $1$ are both
+start states, and the states $3$ and $4$ are both accept states.
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/multi_start_accept}
-    \caption{TODO}
+    \caption{An acceptor with multiple start states ($0$ and $1$) and multiple
+    accept states ($3$ and $4$).}
     \label{fig:multi_start_accept}
 \end{figure}
 
@@ -164,14 +168,15 @@ $$
 $$
 \end{proof}
 
-Graphs can also have self-loops and cycles. For example, the below graphs has a
-self-loop on the state $0$ and a cycle following the state sequence $0
-\rightarrow 1 \rightarrow 2 \rightarrow 0$.
+Graphs can also have self-loops and cycles. For example, the graph in
+figure~\ref{fig:fsa_loops} has a self-loop on the state $0$ and a cycle
+following the state sequence $0 \rightarrow 1 \rightarrow 2 \rightarrow 0$.
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/fsa_loops}
-    \caption{TODO}
+    \caption{A graph with a self-loop on the state $0$ and a cycle from $0
+    \rightarrow 1 \rightarrow 2 \rightarrow 0$.}
     \label{fig:fsa_loops}
 \end{figure}
 
@@ -182,14 +187,15 @@ where the $^*$ denotes zero or more $a$s.
 
 The $\epsilon$ symbols has a special meaning when it is the label on an arc.
 Any arc with an $\epsilon$ label can be traversed without consuming an input
-token in the string. So the below graph accepts the string $ab$, but it also
-accepts the string $b$ because we can traverse from state $0$ to state $1$
-without consuming an input.
+token in the string. So the graph in figure~\ref{fig:fsa_epsilon} accepts the
+string $ab$, but it also accepts the string $b$ because we can traverse from
+state $0$ to state $1$ without consuming an input.
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/fsa_epsilon}
-    \caption{TODO}
+    \caption{An acceptor with an $\epsilon$ transition on the second arc
+    between state $0$ and $1$.}
     \label{fig:fsa_epsilon}
 \end{figure}
 
@@ -199,19 +205,21 @@ a large cost in the size of the graph. Complex languages can be represented by
 much more compact graphs with the use of $\epsilon$-transitions.
 
 \begin{example}
-Convert the graph above which has multiple start and accept states to an
-equivalent graph with only a single start and accept state using $\epsilon$
-transitions.
+Convert the graph in figure~\ref{fig:multi_start_accept} which has multiple
+start and accept states to an equivalent graph with only a single start and
+accept state using $\epsilon$ transitions.
 \end{example}
 
 \begin{proof}[\unskip\nopunct]
-The graph below is the equivalent graph with a single start state and a single
-accept state.
+The graph in figure~\ref{fig:epsilon_start_accept} is the equivalent graph
+with a single start state and a single accept state.
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/epsilon_start_accept}
-    \caption{TODO}
+    \caption{The equivalent graph using only a single start state and accept
+    state to the graph in figure~\ref{fig:multi_start_accept} which has
+    multiple start and accept states.}
     \label{fig:epsilon_start_accept}
 \end{figure}
 
@@ -226,7 +234,7 @@ with $\epsilon$ transitions with a weight of $0$.
 \subsection{Transducers}
 
 A \emph{transducer} maps input strings to output strings. Transducers are a
-generalization of an acceptors. Every acceptor is a tranducer, but not every
+generalization of an acceptors. Every acceptor is a transducer, but not every
 transducer is an acceptor. Let's look at a few example transducers to
 understand how they work.
 
@@ -239,17 +247,20 @@ on every arc are identical.
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/simple_fst}
-    \caption{TODO}
+    \caption{An example of a simple transducer. The label on each arc shows the
+    input label, the output label, and the weight. So $a\!:\!x/0$ represents an
+    input label of $a$, and output label of $x$, and a weight of $0$.}
     \label{fig:simple_fst}
 \end{figure}
 
 Instead of saying that a transducer accepts a given string, we say that it
-\emph{transduces} one string to another. The above graph transducer the string
-$ab$ to the string $xz$ and the string $bb$ to the string $yz$. The weights of
-a transduced pair is computed in the same way as in an acceptor. The scores of
-the individual arcs on the path are summed. The path scores are combined with
-\emph{log-sum-exp}. So the weight of the transduced pair $(ab, xz)$ in the
-above graph is $0+3 = 3$.
+\emph{transduces} one string to another. The graph in
+figure~\ref{fig:simple_fst} transduces the string $ab$ to the string $xz$ and
+the string $bb$ to the string $yz$. The weights of a transduced pair is
+computed in the same way as in an acceptor. The scores of the individual arcs
+on the path are summed. The path scores are combined with \emph{log-sum-exp}.
+So the weight of the transduced pair $(ab, xz)$ in the above graph is $0+3 =
+3$.
 
 We have to generalize concept of the language from an acceptor to a transducer.
 I'll call this generalization the transduced set. Since it will always be clear
@@ -260,14 +271,16 @@ More formally, a pair of strings $(\vx, \vy) \in \mathcal{L}(\gT)$ if $\gT$
 transduces $\vx$ to $\vy$.
 
 \begin{example}
-Compute the score of the transduced pair $(aab, zyy)$ in the graph below.
+Compute the score of the transduced pair $(aab, zyy)$ in the graph in
+figure~\ref{fig:fst_example_score}.
 \end{example}
 
 \begin{proof}[\unskip\nopunct]
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/fst_example_score}
-    \caption{Compute the score of the transduced path $aab$ to $zyy$.}
+    \caption{An example transducer in which the sequence $aab$ is transduced to
+    the sequence $zyy$ on multiple paths.}
     \label{fig:fst_example_score}
 \end{figure}
 
@@ -283,7 +296,7 @@ $$
 Transducers can also have $\epsilon$ transitions. The $\epsilon$ can be either
 the input label on an arc, the output label on an arc, or both. When the
 $\epsilon$ is the input label on an arc, it means we can traverse that arc
-without consuming an input token, but we still output the arc's correspoinding
+without consuming an input token, but we still output the arc's corresponding
 output label. When the $\epsilon$ is the output label, the opposite is true.
 The input is consumed but no output is produced. And when the $\epsilon$ is
 both the input and the output label, the arc can be traversed without consuming
@@ -292,14 +305,16 @@ an input or producing an output.
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/fst_epsilon}
-    \caption{TODO}
+    \caption{A transducer with $\epsilon$ transitions. The $\epsilon$ can be
+    just the input label, just the output label, or both the input and output
+    label.}
     \label{fig:fst_epsilon}
 \end{figure}
 
-In the above graph, the string $b$ gets transduced to the string $x$. On the
-first arc between states $0$ and $1$, we output an $x$ without consuming any
-token. On the second arc between states $1$ and $2$, a $b$ is consumed without
-outputting any new token. Finally, on the arc between states $2$ and $3$ we
-neither consume nor output a token.
+In the graph in figure~\ref{fig:fst_epsilon}, the string $b$ gets transduced to
+the string $x$. On the first arc between states $0$ and $1$, we output an $x$
+without consuming any token. On the second arc between states $1$ and $2$, a
+$b$ is consumed without outputting any new token. Finally, on the arc between
+states $2$ and $3$ we neither consume nor output a token.
 
 \end{document}
