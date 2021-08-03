@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsfonts}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage[english]{babel}
 \usepackage{booktabs}
@@ -12,6 +13,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[numbers]{natbib}
 \usepackage{parskip}
+\usepackage{subcaption}
 
 \usepackage[vcentering,dvips]{geometry}
 \geometry{
@@ -37,6 +39,11 @@
   urlcolor=black]{hyperref}
 
 \definecolor{Gray}{gray}{0.9}
+\newcommand{\dotscale}{0.7}
+
+\theoremstyle{definition}
+\renewcommand\qedsymbol{$\blacksquare$}
+\newtheorem{example}{Example}[section]
 
 \fancyhf{}
 \lhead{\leftmark}
@@ -60,9 +67,11 @@
 \tableofcontents
 
 \subfile{introduction}
-\subfile{acceptors_transducers}
+\subfile{acceptors_and_transducers}
 \subfile{basic_operations}
 \subfile{advanced_operations}
+\subfile{differentiable_automata}
+\subfile{extended_examples}
 
 \bibliographystyle{unsrt}
 \bibliography{references}
