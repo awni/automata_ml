@@ -1,8 +1,7 @@
+## Running notebooks
 
-Install GTN with
+For instructions on running notebooks, see the top-level [README.md](../README.md).
 
-```
-pip install gtn
-```
+## Exporting as HTML
 
-For proper style when exporting HTML, put custom.css in `.jupyter/custom/`.
+For proper style when exporting HTML, put `custom.css` in `.jupyter/custom/`.
