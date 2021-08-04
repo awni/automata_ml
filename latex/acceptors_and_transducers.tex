@@ -13,7 +13,7 @@ finite-state automata (NFAs). More specifically we will consider a
 generalization of DFAs and NFAs called weighted finite-state acceptors (WFSAs).
 That's a mouthful, so I will just call them \emph{acceptors}. We will also
 consider a further generalization of an acceptor called a \emph{transducer}
-(weighted finite-state transducers or WFSTs). Figure~\ref{fig:wfsa_closses}
+(weighted finite-state transducers or WFSTs). Figure~\ref{fig:wfsa_classes}
 shows the relation between these three graphs; transducers, acceptors, and
 automata. Transducers are the most expressive in terms of their
 representational power, followed by acceptors followed by unweighted automata.
@@ -48,20 +48,25 @@ machine (FSM), so called because it has a finite number of nodes.
 
 An automata is deterministic if for each state and label pair there is only one
 outgoing transition which matches that label. An automata is nondeterministic
-if multiple transitions leaving a state have the same label. The graphs below
-show an example of a deterministic and a nondeterministic automata. In general,
-acceptors and transducers to can be nondeterministic.
+if multiple transitions leaving a state have the same label. The graphs in
+figure~\ref{fig:dfa_nfa} show an example of a deterministic and a
+nondeterministic automata. In general, acceptors and transducers to can be
+nondeterministic.
 
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[scale=\dotscale]{figures/simple_dfa}
+        \caption{Deterministic}
+        \label{fig:simple_dfa}
     \end{subfigure}
     \begin{subfigure}[b]{0.48\textwidth}
         \includegraphics[scale=\dotscale]{figures/simple_nfa}
+        \caption{Nondeterministic}
+        \label{fig:simple_nfa}
     \end{subfigure}
-    \caption{An example of a deterministic automata on the left and a
-    nondeterministic automata on the right. The nondeterministic automata has
+    \caption{An example of a deterministic automata and a
+    nondeterministic automata. The nondeterministic automata has
     two arcs leaving the state $2$ both with the label $c$.}
     \label{fig:dfa_nfa}
 \end{figure}
@@ -96,9 +101,9 @@ $aa$ is accepted by the graph by following the state sequence $0 \rightarrow 2
 \rightarrow 1$. The string $ba$ is also accepted by the graph by following the
 same state sequence but taking the arc with label $b$ when traversing from
 state $0$ to state $1$. The language of the acceptor is the set of all strings
-which are accepted by it. You may also encounter "recognized" used as a synonym
-for "accepted". Let the variable $\gA$ represent the above acceptor. In
-general, I'll use uppercase script letters to represent graphs. Let
+which are accepted by it. You may also encounter ``recognized'' used as a
+synonym for ``accepted''. Let the variable $\gA$ represent the above acceptor.
+In general, I'll use uppercase script letters to represent graphs. Let
 $\mathcal{L}(\gA)$ denote the language of $\gA$. In this case $\mathcal{L}(\gA)
 = \{aa, ba\}$.
 
@@ -122,10 +127,10 @@ paths.
 The string $aa$ is accepted along the state sequence $0 \rightarrow 2
 \rightarrow 1$ and along the state sequence $0 \rightarrow 3 \rightarrow 1$. In
 this case, to compute the score of $aa$ we need to consider both paths. Again
-we have a couple of options here. The most common approach is to *log-sum-exp*
-the individual path scores. Again this corresponds to interpreting the path
-scores as log probabilities. We'll use $\LSE(s_1, s_2)$ to denote the
-\emph{log-sum-exp} of the two scores $s_1$ and $s_2$:
+we have a couple of options here. The most common approach is to
+\emph{log-sum-exp} the individual path scores. Again this corresponds to
+interpreting the path scores as log probabilities. We'll use $\LSE(s_1, s_2)$
+to denote the \emph{log-sum-exp} of the two scores $s_1$ and $s_2$:
 \begin{equation}
 \LSE(s_1, s_2) = \log \left( e^{s_1} + e^{s_2}\right).
 \end{equation}
@@ -229,7 +234,6 @@ start nodes are regular internal nodes in this new graph. Similarly the old
 accept states are now regular states and they connect to the new accept state
 with $\epsilon$ transitions with a weight of $0$.
 \end{proof}
-
 
 \subsection{Transducers}
 

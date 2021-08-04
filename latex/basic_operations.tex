@@ -4,4 +4,382 @@
 \section{Basic Operations}
 \label{sec:basic_operations}
 
+An operation on a transducer (or acceptor) takes one or more transducers as
+input and outputs a transducer. You can think of these operations as functions
+on graphs. As a reminder, I'll use uppercase script letters to represent
+graphs, so $\gA$ for example can represent a graph. Functions will be denoted
+by lower case variables. So $f(\gA)$ is a function which takes as input a
+single graph and outputs a graph.
+
+\subsection{Closure}
+
+The closure, sometimes called the Kleene star, is a unary function (takes a
+single input) which can operate on either an acceptor or transducer. If the
+sequence $\vx$ is accepted by $\gA$, then zero or more copies of $\vx$ are
+accepted by the closure of $\gA$. More formally, if the language of an acceptor
+is $\L(\gA)$, then the language of the closure of $\gA$ is $\{\vx^n
+\mid \vx \in \L(\gA),\;\; n = 0, 1, \ldots, \}$. The notation $\vx^n$
+means $\vx$ concatenated $n$ times. So $\vx^2$ is $\vx \vx$ and $\vx^0$ is the
+empty string. Usually the closure of an acceptor is denoted by $^*$, as in
+$\gA^*$. This is the same notation used in regular expressions.
+
+The closure of a graph is easy to construct with the use of $\epsilon$
+transitions. The language of the graph in figure~\ref{fig:fsa_pre_closure} is
+the string $aba$.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=\dotscale]{figures/fsa_pre_closure}
+    \caption{An example of a simple acceptor with language $\{ab\}$, in other
+    words $\L(\gA) = \{ab\}$.}
+    \label{fig:fsa_pre_closure}
+\end{figure}
+
+The closure of the graph needs to accept an arbitrary number of copies of $aba$
+including the empty string. To accept the empty string we make the start state
+an accept state as well. To accept one or more copies of $aba$ we simply wire
+up the old accept states to the new start state with $\epsilon$ transitions.
+
+The closure of the graph in figure~\ref{fig:fsa_pre_closure} is shown in
+figure~\ref{fig:fsa_closure}.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=\dotscale]{figures/fsa_closure}
+    \caption{The closure $\gA^*$ of the graph in
+    figure~\ref{fig:fsa_pre_closure}. The language of the graph is $\{\epsilon,
+    ab, abab, \ldots\}$.}
+    \label{fig:fsa_closure}
+\end{figure}
+
+\begin{example}
+You might notice that the state $4$ in the above graph is not necessary.
+Consider an alternate construction for computing the closure of a graph. We
+could have made the state $0$ into an accept state and connected state $3$
+to state $0$ with an $\epsilon$ transition, as in the graph in
+figure~\ref{fig:fsa_closure_2}.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=\dotscale]{figures/fsa_closure_2}
+    \caption{The closure $\gA^*$ of the graph in
+    figure~\ref{fig:fsa_pre_closure} using an alternate, simpler construction
+    which connects the accept state to the original start state with an
+    $\epsilon$ transition. This construction does not work for every case.}
+    \label{fig:fsa_closure_2}
+\end{figure}
+
+For the graph in figure~\ref{fig:fsa_pre_closure}, this alternate construction
+works and requires fewer states and arcs. In the general case, this
+construction turns every start state into an accept state instead of adding
+a new start state. Give an example where this doesn't work? In other words,
+give an example where the graph from this modified construction is not the
+correct closure of the original graph.
+\end{example}
+
+\begin{proof}[\unskip\nopunct]
+An example for which the alternate construction does not work is shown in the
+graph below. The language of the graph is $a^nb$ (any number of $a$'s followed
+by a $b$) and the closure is $(a^nb)^*$, or any sequence that ends with $b$.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=\dotscale]{figures/fsa_pre_closure_wrong}
+    \caption{An acceptor for which the alternate construction for the closure
+    does not yield the correct result.}
+    \label{fig:fsa_pre_closure_wrong}
+\end{figure}
+
+If we follow the modified construction for the closure, as in the graph in
+figure~\ref{fig:fsa_closure_wrong}, then the language would incorrectly
+include sequences that do not end with $b$ such as $a^*$. The graph
+following the correct construction of the closure is in
+figure~\ref{fig:fsa_closure_right}.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=\dotscale]{figures/fsa_closure_wrong}
+    \caption{The alternate construction which incorrectly computes the closure
+    of the graph in figure~\ref{fig:fsa_pre_closure_wrong}.}
+    \label{fig:fsa_closure_wrong}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=\dotscale]{figures/fsa_closure_right}
+    \caption{The correct closure of the graph in
+    figure~\ref{fig:fsa_pre_closure_wrong} which has the language $(a^nb)^*$, which
+    is any sequence which ends with $b$.}
+    \label{fig:fsa_closure_right}
+\end{figure}
+
+\end{proof}
+
+\subsection{Union}
+
+The union takes as input two or more graphs and produces a new graph. The
+language of the resultant graph is the union of the languages of the input
+graphs. More formally let $\gA_1, \ldots, \gA_n$ be $n$ graphs. The language of
+the union graph is given by $\{ x \mid x \in \gA_i \textrm{ for some } i = 1,
+\ldots, n \}$. I'll occasionally use the $+$ sign to denote the union, as in
+$\gU = \gA_1 + \gA_2$.
+
+Since we let a graph have multiple start states and multiple accept states, the
+union is  easy to construct. A state in the union graph is a start state if it
+was a start state in one of the original graphs. A state in the union graph is
+an accept state if it was an accept state in one of the original graphs.
+
+Consider the three graphs in figure~\ref{fig:union_inputs} with languages
+$\{ab, aba, abaa, \ldots\}$, $\{ba\}$, and $\{ac\}$ respectively.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/union_1}
+        \caption{}
+    \end{subfigure}
+    \par\bigskip
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/union_2}
+        \caption{}
+    \end{subfigure}
+    \par\bigskip
+    \begin{subfigure}[b]{0.8\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/union_3}
+        \caption{}
+    \end{subfigure}
+    \caption{Three acceptors with languages $\{ab, aba, abaa, \ldots\}$,
+    $\{ba\}$, and $\{ac\}$ from left to right, respectively.}
+    \label{fig:union_inputs}
+\end{figure}
+
+Notice in the union graph in figure~\ref{fig:union} the only visual distinction
+from the individual graphs is that the states are numbered consecutively from
+$0$ to $8$ indicating a single graph with nine states instead of three
+individual graphs. The language of the union graph is $\{ab, aba, abaa,
+\ldots\} \cup \{ba\} \cup \{ac\}$.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=\dotscale]{figures/union}
+    \caption{The union of the three acceptors above with language $\{ab, aba,
+    abaa, \ldots\} \cup \{ba\} \cup \{ac\}$.}
+    \label{fig:union}
+\end{figure}
+
+\subsection{Concatenation}
+
+Like union, concatenation produces a new graph given two or more graphs as
+input. The language of the concatenated graph is the set of strings which can
+be formed by any concatenation of strings from the individual graph.
+Concatenation is not commutative, the order of the input graphs matters. More
+formally the language of the concatenated graph is given by $\{\vx_1 \ldots
+\vx_n \mid \vx_1 \in \L(\gA_1), \ldots, \vx_n \in \L(\gA_n)\}$. Occasionally, I
+will denote concatenation by placing the graphs side-by-side. So $\gA_1 \gA_2$
+represents the concatenation of $\gA_1$ and $\gA_2$.
+
+The concatenated graph can be constructed from the original input graphs by
+wiring start states to accept states. Assume we are concatenating $\gA_1,
+\ldots, \gA_n$. The start states of the concatenated graph are the start
+states of the first graph, $\gA_1$. The accept states of the concatenated
+graph are the accept states of the last graph, $\gA_n$. For any two graph
+$\gA_i$ and $\gA_{i+1}$, we connect each start state of $\gA_i$ to each accept
+state of $\gA_{i+1}$ with an $\epsilon$ transition.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/concat_1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/concat_2}
+    \end{subfigure}
+    \caption{The acceptor on left has language $\{ba\}$ and the acceptor on the
+    right has language $\{ac, bc\}$.}
+    \label{fig:concat_inputs}
+\end{figure}
+
+As an example, consider the two graphs in figure~\ref{fig:concat_inputs}. The
+concatenated graph is in figure~\ref{fig:concat} and has the language $\{baac,
+babc\}$.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=\dotscale]{figures/concat}
+    \caption{The graph is the concatenation of the two graphs in
+    figure~\ref{fig:concat_inputs} and has the language $\{baac, babc\}$.}
+    \label{fig:concat}
+\end{figure}
+
+\begin{example}
+What is the identity graph for the concatenation function? The identity in a
+binary operation is the value which when used in the operation leaves the second
+input unchanged. In multiplication this would be $1$ since $c * 1 = c$ for any
+real value $c$.
+
+What is the equivalent of the annihilator graph in the concatenation function?
+The annihilator in a binary operation is the value such that the operation with
+the annihilator always returns the annihilator. For multiplication $0$ is the
+annihilator since $c *0 = 0$ for any real value $c$.
+\end{example}
+
+\begin{proof}[\unskip\nopunct]
+The graph which accepts the empty string is the identity. The graph which does
+not accept any strings is the annihilator. See the
+figure~\ref{fig:concat_identity_annihilator} for an example of these two
+graphs.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/concat_identity}
+        \caption{Identity}
+        \label{fig:concat_identity}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/concat_annihilator}
+        \caption{Annihilator}
+        \label{fig:concat_annihilator}
+    \end{subfigure}
+    \caption{The identity and the annihilator for the concatenation operation.
+    The language of the identity graph is the empty string $\{\epsilon\}$. The
+    language of the annihilator graph is the empty set $\{\}$.}
+    \label{fig:concat_identity_annihilator}
+\end{figure}
+
+The identity graph is a single node which is both a start and accept state. The
+language of the identity graph is the empty string. The annihilator graph is a
+single non accepting state. The language of the annihilator graph is the empty
+set. Note the subtle distinction between the language that contains the empty
+string and the language that is the empty set. The former can be written as
+$\{\epsilon\}$ whereas the latter is $\{\}$ (also commonly denoted by
+$\varnothing$).
+\end{proof}
+
+\begin{example}
+Construct the concatenation of the two graphs in
+figure~\ref{fig:concat_example_inputs}.
+\end{example}
+
+\begin{proof}[\unskip\nopunct]
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/concat_example_1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/concat_example_2}
+    \end{subfigure}
+    \caption{The acceptor on the right has the language $\{ba, bc\}$, the
+    acceptor on the left has the language $\{a, c\}$.}
+    \label{fig:concat_example_inputs}
+\end{figure}
+
+The concatenated graph is in figure~\ref{fig:concat_example}.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=\dotscale]{figures/concat_example}
+    \caption{The concatenation of the two graphs in
+    figure~\ref{fig:concat_example_inputs} has the language $\{baa, bac, bca,
+    bcc\}$.}
+    \label{fig:concat_example}
+\end{figure}
+
+\end{proof}
+
+\begin{example}
+Suppose we have a list of graphs to concatenate $\gA_1, \ldots, \gA_n$ where the
+$i$-th graph has $s_i$ start states and $a_i$ accept states. How many new
+arcs will the concatenated graph require?
+\end{example}
+
+\begin{proof}[\unskip\nopunct]
+For each consecutive pair of graphs $\gA_i$ and $\gA_{i+1}$, we need to add
+$a_i * s_{i+1}$ connecting arcs in the concatenated graph. So the total
+number of additional arcs is:
+$$
+\sum_{i=1}^{n-1} a_i * s_{i+1}.
+$$
+\end{proof}
+
+\subsection{Summary}
+
+We've seen three basic operations so far:
+
+\begin{itemize}
+    \item {\bf Closure:} The closed graph accepts any string in the input graph
+        repeated zero or more times. The closure of a graph $\gA$ is denoted
+        $\gA^*$.
+
+    \item {\bf Union:} The union graph accepts any string from any of the input
+        graphs. The union of two graphs $\gA_1$ and $\gA_2$ is denoted $\gA_1 +
+        \gA_2$.
+
+    \item {\bf Concatenation:} The concatenated graph accepts any string which
+        can be formed by concatenating strings (respecting order) from the
+        input graphs. The concatenation of two graphs $\gA_1$ and $\gA_2$ is
+        denoted $\gA_1\gA_2$.
+
+\end{itemize}
+
+\begin{example}
+Assume you are given the following individual graphs $\gA_a$, $\gA_b$, and
+$\gA_c$, which recognize $a$, $b$, and $c$ respectively, as in
+figure~\ref{fig:fsa_tokens}. Using only the closure, union, and
+concatenation operations, construct the graph which recognizes any number
+of repeats of the strings $aa$, $bb$, and $cc$. For example $aabb$ and
+$bbaacc$ are in the language but $b$ and $ccaab$ are not.
+\end{example}
+
+\begin{proof}[\unskip\nopunct]
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/fsa_a}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/fsa_b}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[scale=\dotscale]{figures/fsa_c}
+    \end{subfigure}
+    \caption{The three individual automata with languages $\{a\}$, $\{b\}$, and
+    $\{c\}$ from left to right, respectively.}
+    \label{fig:fsa_tokens}
+\end{figure}
+
+First concatenate the individual graphs with themselves to get graphs which
+recognize $aa$, $bb$, and $cc$. Then take the union of the three
+concatenated graphs followed by the closure. The resulting graph is shown
+in figure~\ref{fig:fsa_repeats}. If we represent the individual automata as
+, then the equation to compute the desired graph is $\gA = (\gA_a\gA_a +
+\gA_b\gA_b + \gA_c\gA_c)^*$.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=\dotscale]{figures/fsa_repeats}
+    \caption{The even numbered repeats graph constructed from the individual
+    token graphs using the operations $\gA = (\gA_a\gA_a + \gA_b\gA_b +
+    \gA_c\gA_c)^*$.}
+    \label{fig:fsa_repeats}
+\end{figure}
+
+\end{proof}
+
 \end{document}

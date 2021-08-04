@@ -3,7 +3,7 @@ p {
 }
 
 .jp-Notebook {
-    width : 800px !important;
+    width : 900px !important;
     margin : 20px auto;
     -moz-box-shadow : 2px 2px 10px #ccc;
     -webkit-box-shadow : 2px 2px 10px #ccc;
@@ -21,8 +21,8 @@ p {
 
 .img {
     float : left;
-    margin : 10px;
-    min-width : 300px;
+    margin : 10px auto;
+    text-align: center;
 }
 
 .caption {
