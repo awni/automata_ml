@@ -14,7 +14,7 @@ other tasks in computational biology.
 However, the application of these data structures in machine learning is far
 from main stream. In fact, their use likely decreased with the advent of
 end-to-end deep learning. The recent development of frameworks for automatic
-differentation with automata suggests there may be renewed interest in the
+differentiation with automata suggests there may be renewed interest in the
 application of automata to machine learning.
 
 This tutorial introduces weighted automata and their operations. Once this
@@ -28,22 +28,22 @@ However, before launching into the more technical content, let's start with
 some broader perspectives in order to motivate the use of automata in machine
 learning.
 
-\subsection{Monolothic or Modular}
+\subsection{Monolithic or Modular}
 
 In the past, complex machine-learning systems, like those used in speech
-recognition, involved many specialised hand-endingeered components. The trend
+recognition, involved many specialized hand-engineered components. The trend
 is now for the opposite. Most machine-learning applications involve a single,
 monolithic neural network. Both of these extremes have advantages and both have
 disadvantages.
 
 I believe a primary advantage of automata in machine learning is their
 ability to harness the best of both worlds. Automata are capable of retaining
-many if not all of the advantages of a multi-componenet, hand-engineered system
-as well as those of a monolothic deep neural network. The next few paragraphs
+many if not all of the advantages of a multi-component, hand-engineered system
+as well as those of a monolithic deep neural network. The next few paragraphs
 explain some of these advantages and the regime to which they apply.
 
 \paragraph{Modular:} One of the advantages of multi-component, hand-engineered
-systems over monolothic neural networks is modularity. In traditional software
+systems over monolithic neural networks is modularity. In traditional software
 design modularity is usually a good thing. Modular systems are easier to
 develop since part of the system can be changed without needing to change the
 rest. In machine-learning systems, modularity is useful to avoid retraining the
@@ -57,15 +57,15 @@ different tasks.
 \paragraph{Compound errors:} A primary disadvantage of modular systems is that
 errors compound. Each module is typically developed in isolation and hence
 unaware of the types of errors made by the modules from which it receives
-input. Monolothic systems on the other hand can be thought of as being
+input. Monolithic systems on the other hand can be thought of as being
 constructed from many sub-components all of which are jointly optimized towards
-a single goal. These subcomponents can learn to compensate for the mistakes
+a single goal. These sub-components can learn to compensate for the mistakes
 made by the others and in general work together more seamlessly.
 
 \paragraph{Adaptable:} Modular systems are typically more adaptable than
-monolothic systems. A machine-learning model which is tuned for one domain
+monolithic systems. A machine-learning model which is tuned for one domain
 usually won't work in another domain without retraining at least part of the
-model on data from the new domain. Monolothic neural networks typically require
+model on data from the new domain. Monolithic neural networks typically require
 a lot of data and hence are difficult to adapt to new domains. Modular systems
 must also be adapted. However, in some cases only one or a small subset of the
 modules need be updated, making the adaptation problem simpler.
@@ -88,7 +88,7 @@ very nature incorporate prior knowledge for a give task. Each module is
 designed and built to solve a specific sub-task, usually with plenty of
 potential for customization towards that task.
 
-Modular and monolothic systems have complementary advantages with respect to
+Modular and monolithic systems have complementary advantages with respect to
 these four traits. Ideally we could construct machine-learning models which
 retain the best of each. Automata-based modeling is one possibility which will
 task us a step closer towards this goal.  However, to use automata to their
@@ -98,6 +98,7 @@ efficient implementations 2) easy to use frameworks which support automatic
 differentiation.
 
 \subsection{Advantages of Differentiable Automata}
+\label{sec:advantages}
 
 A key to unlocking the potential of automata in machine learning is enabling
 their use during the training stage machine-learning models. All of the
@@ -106,12 +107,12 @@ of their input graphs. This means that weighted automata and the operations on
 them can be used in a similar manner as tensors and their corresponding
 operations are used in deep learning. Operations can be chained to form complex
 computation graphs. Some of the weighted automata which are input to the
-computation graph can have learnable parameters. These parameters can be
-optimized using backpropagation and gradient descent.
+computation graph can have parameters which are learned. These parameters can
+be optimized using back-propagation and gradient descent.
 
 Automatic differentiation makes computing gradients for complex computation
 graphs much simpler. Hence combining automatic differentiation with weighted
-automata is improtant to enabling their use in training machine-learning
+automata is important to enabling their use in training machine-learning
 models.
 
 Sophisticated machine-learning systems often separate the training and
@@ -129,31 +130,32 @@ sub-optimal.
 
 One of the benefits of combining automatic differentiation with weighted
 automata is the potential to bring the training and inference stages closer
-together. For example, speech recognizers often use hand-implemented loss
-functions at training time. However, the decoder (used for inference) brings
-together mutliple models represented as graphs (lexicon, language model,
+together. For example, speech recognition systems often uses hand-implemented
+loss functions at training time. However, the decoder (used for inference)
+brings together multiple models represented as graphs (lexicon, language model,
 acoustic model, \emph{etc.}) in a completely different code path. By enabling
-automatic differentiotion with graphs, the decoding stage can also be used for
+automatic differentiation with graphs, the decoding stage can also be used for
 training.  This has the potential to both simplify and improve the performance
 of the system.
 
 Loss functions like Connectionist Temporal Classification, the Automatic
 Segmentation criterion, and Lattice-free Maximum Mutual Information are
-implmeented with custom and highly optimized software. However, these loss
+implemented with custom and highly optimized software. However, these loss
 functions can all be implemented using graphs and (differentiable) operations
 on graphs.
 
 This separation of code from data, where graphs represent the data and
-operations on graphs represent the code, has several benefits. First, the separation
-simplifies the software. Second, the separation facilitates research by making
-it easier to experiment with new ideas. Lastly, the separation enables the
-optimization of graph operations to be more broadly shared.
+operations on graphs represent the code, has several benefits. First, the
+separation simplifies the software. Second, the separation facilitates research
+by making it easier to experiment with new ideas. Lastly, the separation
+enables the optimization of graph operations to be more broadly shared.
 
 \subsection{Comparison to Tensors}
+\label{sec:comparison_to_tensors}
 
 Modern deep learning is built upon the tensor data structure and the many
 operations which take as input one or more tensors. Some of the more common
-operations include matrix multiplicatoin, 2-dimensional convolution, reduction
+operations include matrix multiplication, 2-dimensional convolution, reduction
 operations, and unary and binary operations.
 
 Automata are an alternative data structure and the operations are quite
@@ -180,7 +182,7 @@ where $\LSE$ is the \emph{log-sum-exp} operation.
 %in much more detail in section~\ref{sec:advanced_operations}).
 Both operations take on the form of an accumulation over an inner variable of
 values from each of the inputs. In matrix multiplication this is the shared
-dimnsion of the matrices $\mA$ and $\mB$. In graph composition the inner
+dimension of the matrices $\mA$ and $\mB$. In graph composition the inner
 variable is the shared path $\vr$.
 
 \begin{table}[ht]
@@ -195,7 +197,7 @@ variable is the shared path $\vr$.
         Matrix multiplication, convolution & Intersect, compose \\
         \rowcolor{Gray} Reduction ops (sum, prod, \emph{etc.}) & Shortest distance (forward, Viterbi) \\
         Unary ops (power, negation, \emph{etc.})  & Unary ops (closure) \\
-        \rowcolor{Gray} $n$-ary ops (addition, subtraction, \emph{etc.})  & $n$-aryops (concatenation, union) \\
+        \rowcolor{Gray} $n$-ary ops (addition, subtraction, \emph{etc.})  & $n$-ary ops (concatenation, union) \\
     \bottomrule
     \end{tabular}
     \label{tab:tensor_wfst_analogy}
@@ -216,14 +218,39 @@ Perhaps these will encourage the use of automata in machine learning.
 
 \subsection{History and Bibliographic Notes}
 
-%% On Transducers in ML
-%% a lot of Mohri's work
+\citet{hopcroft2001introduction} provides an excellent introduction to
+non-weighted automata. \citet{mohri2009weighted} gives a more formal and
+general treatment of weighted automata and associated algorithms.
 
-%% On frameworks
-%% PyTorch, TensorFlow, Theano and Torhc
-%% Open FST
+Weighted finite-state automata are commonly used in speech recognition, natural
+language processing, optical character recognition, and other
+applications~\citep{breuel2008ocropus, knight2009applications, mohri1997finite,
+mohri2002weighted, mohri2008speech}. \citet{pereira1997} was an early
+application of weighted automata to speech recognition, though before that
+there were other applications in natural language
+processing~\citep{pereira1994weighted, sproat1996stochastic}. The Graph
+Transformer Networks of~\citet{bottou97}, a similar though more general
+framework, were developed around the same time and applied to character
+recognition in images.
 
-%% On differentiable transducers
-%% graph transformer networks, GTN, K2
+The sequence criteria mentioned in section~\ref{sec:advantages}, namely
+Connectionist Temporal Classification~\citep{graves2006}, the Automatic
+Segmentation criterion~\citep{collobert2016wav2letter}, and Lattice-free
+Maximum Mutual Information~\citep{povery2016purely} are most commonly used in
+speech recognition. Section~\ref{sec:extended_examples} shows how to implement
+a subset of these using weighted automata. \citet{hannun2017sequence} gives a
+more detailed introduction to Connectionist Temporal Classification.
+
+
+In terms of software, two of the better known libraries for operations on WFSTs
+are OpenFST~\citep{mohri2000design} and its predecessor
+FSM~\citep{allauzen2007openfst}. In section~\ref{sec:comparison_to_tensors} I
+compared weighted automata to tensors. PyTorch~\citep{paszke2019pytorch} and
+TensorFlow~\citep{abadi2016tensorflow} are two of the most used libraries for
+tensor-based deep learning with automatic differentiation. These were based on
+earlier frameworks including Torch~\citep{collobert2011torch7} and
+Theano~\citep{bergstra2010theano}. Libraries which support automatic
+differentiation with weighted automata have only recently been
+developed~\citep{k2, hannun2020differentiable}.
 
 \end{document}
