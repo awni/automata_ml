@@ -9,6 +9,7 @@
 \usepackage[english]{babel}
 \usepackage{booktabs}
 \usepackage[labelfont=bf]{caption}
+\usepackage{chngcntr}
 \usepackage{color, colortbl}
 \usepackage{fancyhdr}
 \usepackage{graphicx}
@@ -46,6 +47,12 @@
 \theoremstyle{definition}
 \renewcommand\qedsymbol{$\blacksquare$}
 \newtheorem{example}{Example}[section]
+
+% Section numbers in captions.
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+\counterwithin{example}{section}
+\counterwithin{algorithm}{section}
 
 \fancyhf{}
 \lhead{\leftmark}
