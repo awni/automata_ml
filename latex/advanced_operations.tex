@@ -42,53 +42,15 @@ the graph which recognizes $ab$.
 \end{figure}
 
 The general algortihm relies on a queue to explore pairs of states from the two
-input graphs. Pseudocode is given below.
+input graphs. Pseudocode is given in algorithm~\ref{alg:intersect}.
 
-%```C++
-%function intersect(g1, g2) {
-%    queue = Queue()
-%    new_graph = Graph()
-%
-%    // Add all pairs of start states to the queue. For each pair
-%    // add a corresponding start state to the intersected graph.
-%    for s1, s2 in start_state_pairs(g1, g2) {
-%        new_graph.add_state((s1, s2))
-%        queue.push((s1, s2))
-%    }
-%
-%    while not queue.empty() {
-%        (u1, u2) = queue.pop()
-%        // Get all pairs of outgoing arcs from states u1 and u2
-%        // with matching labels.
-%        for arc1, arc2 in label_matching_arcs(u1, u2) {
-%            v1 = arc1.dst_node()
-%            v2 = arc2.dst_node()
-%
-%            // If we haven't visited the state pair (v1, v2) yet, then
-%            // add it to the queue and create a new state in the
-%            // intersected graph. The new state is an accept state if
-%            // both v1 and v2 are accept states.
-%            if not_visited((v1, v2)) {
-%                queue.push((v1, v2))
-%                new_graph.add_state((v1, v2))
-%            }
-%
-%            // Add an arc to the new graph from (u1, u2) to (v1, v2)
-%            // with the label from the matching arcs and a weight
-%            // given by the sum of the weights of the matching arcs.
-%            label = arc1.label()
-%            weight = acr1.weight() + arc2.weight()
-%            new_graph.add_arc((u1, u2), (v1, v2), label, weight)
-%        }
-%    }
-%    return new_graph
-%}
-%```
+\input{intersect_algorithm}
 
-Some of the steps of the intersect algorithm on the two input graphs above are
-shown in the sequence of graphs in figure~\ref{fig:intersect_steps}. The states
-explored at each step are highlighted in red. The intersected graph is the
-third graph on the right which is constructed over the steps of the algorithm.
+Some of the steps of the intersect algorithm on the two input graphs in
+figure~\ref{fig:intersect_inputs} are shown in the sequence of graphs in
+figure~\ref{fig:intersect_steps}. The states explored at each step are
+highlighted in red. The intersected graph is the third graph on the right which
+is constructed over the steps of the algorithm.
 
 \begin{figure}
     \begin{subfigure}{\linewidth}
@@ -290,27 +252,28 @@ third graph on the right which is constructed over the steps of the algorithm.
     \label{fig:intersect_steps}
 \end{figure}
 
-The pseudocode does not handle $\epsilon$ transitions. The challenge with
-including $\epsilon$ transitions in intersect and compose is discussed in
-section~\ref{sec:epsilon_intersect}.
+The pseudocode in algorithm~\ref{alg:intersect} does not handle $\epsilon$
+transitions. The challenge with including $\epsilon$ transitions in intersect
+and compose is discussed in section~\ref{sec:epsilon_intersect}.
 
-Another potential issue with the pseudocode above is that the output graph it
-constructs is not \emph{trim}. An automata is trim if every state in the graph
-is part of a path which starts in a start state and terminates in an accept
-state.  In short, the graph does not have any useless states. In the standard
-terminology, a state is said to be \emph{accessible} if it can be reached from
-a start state and \emph{coaccessible} if an accept state can be reached from
-it. A graph is trim if every state is both accessible and coaccessible.
+Another potential issue with the algorithm~\ref{alg:intersect}is that the
+output graph it constructs is not \emph{trim}. An automata is trim if every
+state in the graph is part of a path which starts in a start state and
+terminates in an accept state.  In short, the graph does not have any useless
+states. In the standard terminology, a state is said to be \emph{accessible} if
+it can be reached from a start state and \emph{coaccessible} if an accept state
+can be reached from it. A graph is trim if every state is both accessible and
+coaccessible.
 
-Every state in the pseudocode above will be accessible, but not necessarily
-coaccessible, so the graph may not be trim. However, the graph will still be
-correct, so this is primarily an issue of representation size. With some
-additional work the constructed graph can be kept trim during the operation of
-the algorithm. Another alternative is to construct a trim graph from the
-non-trim graph as a post-processing step. Note, in the figures above showing
-some steps of the intersect algorithm, we removed dead-end states in the
-intersected graph for clarity; however, the algorithm in the pseudocode does
-not do this.
+Every state in the intersected graph $\gI$ will be accessible, but not
+necessarily coaccessible, so $\gI$ may not be trim. However, the graph will
+still be correct, so this is primarily an issue of representation size. With
+some additional work the constructed graph can be kept trim during the
+operation of the algorithm. Another alternative is to construct a trim graph
+from the non-trim graph as a post-processing step. Note, in
+figure~\ref{fig:intersect_steps} showing some steps of the intersect algorithm,
+we removed dead-end states in the intersected graph for clarity; however,
+algorithm~\ref{alg:intersect} does not do this.
 
 \begin{example}
 Compute the intersection of the two graphs in
@@ -342,7 +305,9 @@ the only sequences accepted by both inputs.
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/intersect_example}
-    \caption{The intersected graph accepts the strings $aab$, $abc$, and $bcc$.}
+    \caption{The intersection of the graphs in
+    figure~\ref{fig:intersect_example_inputs} accepts the strings $aab$, $abc$,
+    and $bcc$.}
     \label{fig:intersect_example}
 \end{figure}
 \end{proof}
@@ -376,7 +341,8 @@ inner labels of the two arcs must match and the resulting arc labels are the
 outer labels of the two input arcs.
 
 \begin{example}
-Compute the composition of the following two graphs.
+Compute the composition of the two graphs in
+figure~\ref{fig:compose_example_inputs}.
 \end{example}
 
 \begin{figure}
@@ -394,15 +360,17 @@ Compute the composition of the following two graphs.
 \end{figure}
 
 \begin{proof}[\unskip\nopunct]
-The composition is given in the graph below. As an example, the first input
-graph transduces $abc$ to $xyz$ and the second input transduces $xyz$ to $abb$,
-$abc$, $bbb$, and $bbc$. Thus, the composed graph should transduce $abc$ to all
-four of $abb$, $abc$, $bbb$, and $bbc$. You can verify this in the graph below.
+The composition is given in figure~\ref{fig:compose_example}. As an example,
+the first input graph transduces $abc$ to $xyz$ and the second input
+transduces $xyz$ to $abb$, $abc$, $bbb$, and $bbc$. Thus, the composed
+graph should transduce $abc$ to all four of $abb$, $abc$, $bbb$, and $bbc$.
+You can verify this in the graph in figure~\ref{fig:compose_example}.
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/compose_example}
-    \caption{The composition of the two graphs above.}
+    \caption{The composition of the two graphs from
+    figure~\ref{fig:compose_example_inputs}.}
     \label{fig:compose_example}
 \end{figure}
 
@@ -421,7 +389,7 @@ First, consider the simpler case when only the first input graphs has
 $\epsilon$ transitions. In this case, whenever we encounter an outgoing
 $\epsilon$ transition from a state in the first graph we can optionally
 traverse it without matching a corresponding arc in the second graph. Consider
-the two subgraphs below.
+the subgraphs in figure~\ref{fig:epsilon_intersect}.
 
 \begin{figure}
     \centering
@@ -458,7 +426,8 @@ explored. We also add an arc from the state $(0, 0)$ to the state $(2, 0)$ in
 the intersected graph with a label $\epsilon$ and a weight of $2$.
 
 \begin{example}
-Compute the intersection of the two graphs below.
+Compute the intersection of the two graphs in
+figure~\ref{fig:epsilon_intersect_example_inputs}.
 \end{example}
 
 \begin{figure}
@@ -477,14 +446,15 @@ Compute the intersection of the two graphs below.
 \end{figure}
 
 \begin{proof}[\unskip\nopunct]
-The intersected graph is below. The $\epsilon$ transition is included for
-clarity, though it could be removed and states $1$ and $2$ collapsed yielding
-an equivalent graph.
+The intersected graph is in figure~\ref{fig:epsilon_intersect_example}. The
+$\epsilon$ transition is included for clarity, though it could be removed
+and states $1$ and $2$ collapsed yielding an equivalent graph.
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/epsilon_intersect_example}
-    \caption{The intersection of the two graphs above.}
+    \caption{The intersection of the two graphs in
+    figure~\ref{fig:epsilon_intersect_example_inputs}.}
     \label{fig:epsilon_intersect_example}
 \end{figure}
 
@@ -493,7 +463,8 @@ an equivalent graph.
 The trickier case to handle is when both graphs have $\epsilon$ transitions. If
 we optionally explore outgoing $\epsilon$ arcs in each graph, then we will end
 up with too many paths in the intersection. Suppose we are given the two graphs
-below, each of which has an $\epsilon$ transition.
+in figure~\ref{fig:epsilon_intersect_both_inputs}, each of which has an
+$\epsilon$ transition.
 
 \begin{figure}
     \centering
@@ -509,17 +480,19 @@ below, each of which has an $\epsilon$ transition.
     \label{fig:epsilon_intersect_both_inputs}
 \end{figure}
 
-If we compute the intersection of the above two graphs, optionally following
-$\epsilon$ transitions as we encounter them, then we end up with the graph
-below.
+If we compute the intersection of the two graphs in
+figure~\ref{fig:epsilon_intersect_both_inputs}, optionally following $\epsilon$
+transitions as we encounter them, then we end up with the graph in
+figure~\ref{fig:epsilon_intersect_both}.
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/epsilon_intersect_both}
-    \caption{Naively following $\epsilon$ transitions as we encounter them when
-    intersecting the two graphs above results in an incorrect graph. The graph
-    admits too many paths for the sequence $ab$, and hence the score of that
-    sequence is incorrect.}
+    \caption{An incorrect composition of the two graphs in
+    figure~\ref{fig:epsilon_intersect_both_inputs}. Naively following
+    $\epsilon$ transitions as we encounter them when computing the intersection
+    results in an incorrect graph. The graph admits too many paths for the
+    sequence $ab$, and hence the score of that sequence is incorrect.}
     \label{fig:epsilon_intersect_both}
 \end{figure}
 
@@ -530,14 +503,15 @@ three paths for $ab$. The final weight will receive three contributions, one
 from each path, instead of a single contribution from one path. The solution to
 this problem is to choose only one of the three paths and avoid the inadvertant
 redundancy. For example we could keep the bottom path and ignore the top two as
-in the graph below.
+in the graph in figure~\ref{fig:epsilon_intersect_both_correct}.
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/epsilon_intersect_both_correct}
     \caption{Correctly accounting for $\epsilon$ transitions when intersecting
-    the two graphs above. Notice that only one of the three resultant paths
-    should be retained in the intersected graph.}
+    the two graphs in figure~\ref{fig:epsilon_intersect_both_inputs}. Notice
+    that only one of the three resultant paths should be retained in the
+    intersected graph.}
     \label{fig:epsilon_intersect_both_correct}
 \end{figure}
 
@@ -550,7 +524,7 @@ graph. The weight of the highest scoring path is the \emph{Viterbi score}, and t
 path itself is the \emph{Viterbi path}.
 
 \begin{center}
-\begin{tabular}{p{0.95\textwidth}}
+\begin{tabular}{p{.95\textwidth}}
 \midrule\\
 \vspace{-10mm}
 \subsubsection{Aside: Shortest Distance}
@@ -581,8 +555,8 @@ machine-learning applications.
     \label{fig:score_example}
 \end{figure}
 
-The graph above has three possible paths from the start states to the accept
-state. The paths and their scores are:
+The graph in figure~\ref{fig:score_example} has three possible paths from the
+start states to the accept state. The paths and their scores are:
 
 \begin{itemize}
     \item State sequence $0 \rightarrow 1 \rightarrow 2 \rightarrow 3$ with
@@ -594,18 +568,18 @@ state. The paths and their scores are:
 The Viterbi score is the maximum over the individual path scores, in this case
 $\max\{4.6, 5.3, 3.5\} = 5.3$. The Viterbi path is the sequence of labels which
 correspond to the arcs contributing to the Viterbi score. We represent the
-Viterbi path as a simple linear graph as below. Note the Viterbi path may not
-be unique--multiple paths could all attain the Viterbi score. The forward
-score is the \emph{log-sum-exp} over all the path scores, in this case $\LSE(4.6,
-5.3, 3.5) = 5.81$. The forward score will always be larger than the Viterbi
-score. However, the two will converge as the difference between Viterbi score
-and the second highest scoring path increases.
+Viterbi path as a simple linear graph as in figure~\ref{fig:viterbi_path}. Note
+the Viterbi path may not be unique--multiple paths could all attain the Viterbi
+score. The forward score is the \emph{log-sum-exp} over all the path scores, in
+this case $\LSE(4.6, 5.3, 3.5) = 5.81$. The forward score will always be larger
+than the Viterbi score. However, the two will converge as the difference
+between Viterbi score and the second highest scoring path increases.
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/viterbi_path}
-    \caption{The Viterbi path for the graph above. The score of the Viterbi
-    path is the Viterbi score, in this case $5.3$.}
+    \caption{The Viterbi path for the graph in figure~\ref{fig:score_example}.
+    The score of the Viterbi path is the Viterbi score, in this case $5.3$.}
     \label{fig:viterbi_path}
 \end{figure}
 
@@ -630,7 +604,8 @@ $$
 where $s_v$ is the score of all paths starting at a start state terminating at
 state $v$, and $s_{\textrm{source}(e_i)}$ is the score of all paths starting at
 a start state terminating at state $\textrm{source}(e_i)$. The recursion is
-shown graphically below. In the figure, the Viterbi score of state $3$ is the
+shown graphically in figure~\ref{fig:viterbi_recursion}. In
+figure~\ref{fig:viterbi_recursion}, the Viterbi score of state $3$ is the
 maximum over the weight plus the source node score for all incoming arcs.
 
 \begin{figure}
@@ -653,12 +628,13 @@ and the final score is $\LSE_a s_a$.
 
 For both the forward and Viterbi score, the recursion works because the $\LSE$
 and $\max$ operations admit a simple decomposition of the score for all paths
-terminating at a given state. Suppose, as in the graph below, we have a state
-$v$ for which we want to compute the score $s_v$. Suppose also that $v$ has
-only one incoming arc from state $u$. Three paths from a start state terminate
-at state $u$ with the given scores $p_1$, $p_2$, and $p_3$. We can extend each
-of the three paths from $u$ to $v$ by adding the arc between them, so there are
-three paths terminating at $v$ as well.
+terminating at a given state. Suppose, as in the graph in
+figure~\ref{fig:dp_recursion}, we have a state $v$ for which we want to compute
+the score $s_v$. Suppose also that $v$ has only one incoming arc from state
+$u$. Three paths from a start state terminate at state $u$ with the given
+scores $p_1$, $p_2$, and $p_3$. We can extend each of the three paths from $u$
+to $v$ by adding the arc between them, so there are three paths terminating at
+$v$ as well.
 
 \begin{figure}
     \centering
@@ -706,7 +682,8 @@ maintain a backpointer to the arc which resulted in the maximum score. When the
 algorithm terminates, we can trace the backpointers to the start state and
 extract the Viterbi path.
 
-An example of this can be seen in the graph below.
+An example of this can be seen in the graph in
+figure~\ref{fig:viterbi_path_back}.
 
 \begin{figure}
     \centering
@@ -726,7 +703,8 @@ Viterbi path state sequence is $0 \rightarrow 2 \rightarrow 4 \rightarrow 6$
 with arc labels $b$, $c$, and $b$.
 
 \begin{example}
-Compute the Viterbi path of the graph below.
+Compute the Viterbi path of the graph in
+figure~\ref{fig:viterbi_path_example_input}.
 \end{example}
 
 \begin{figure}
@@ -738,13 +716,14 @@ Compute the Viterbi path of the graph below.
 \end{figure}
 
 \begin{proof}[\unskip\nopunct]
-The Viterbi path is shown in the graph below.
+The Viterbi path is shown in  figure~\ref{fig:viterbi_path_example}.
 \end{proof}
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/viterbi_path_example}
-    \caption{The Viterbi path of the above graph.}
+    \caption{The Viterbi path of the graph in
+    figure~\ref{fig:viterbi_path_example_input}.}
     \label{fig:viterbi_path_example}
 \end{figure}
 

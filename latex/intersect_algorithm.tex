@@ -1,0 +1,34 @@
+\begin{algorithm}[t]
+\caption{Intersect}
+\label{alg:intersect}
+\begin{algorithmic}[1]
+\STATE \textbf{Input}: Acceptors $\gA_1$ and $\gA_2$
+\STATE Initialize the queue $Q$ and the intersected graph $\gI$.
+
+\FOR {$s_1$ and $s_2$ in all start state pairs of $\gA_1$ and $\gA_2$}
+    \STATE Add $(s_1, s_2)$ to $Q$ and as a start state in $\gI$.
+    \IF {$s_1$ and $s_2$ are accept states}
+        \STATE Make $(s_1, s_2)$ an accept state in $\gI$.
+    \ENDIF
+\ENDFOR
+
+\WHILE {$Q$ is not empty}
+    \STATE Remove the next state pair $(u_1, u_2)$ from $Q$.
+    \FOR {all arcs pairs $a_1$ and $a_2$ leaving $u_1$ and $u_2$ with matching labels}
+        \STATE Get destination states $v_1$ of $a_1$ and $v_2$ of $a_2$.
+        \IF {not yet seen $(v_1, v_2)$}
+            \STATE Add $(v_1, v_2)$ as a state to $\gI$ and to $Q$.
+            \IF {$v_1$ and $v_2$ are accept states}
+                \STATE Make $(v_1, v_2)$ an accept state in $\gI$.
+            \ENDIF
+        \ENDIF
+        \STATE Get the label $\ell$ of $a_1$.
+        \STATE Get the weights $w_1$ of $a_1$ and $w_2$ of $a_2$.
+        \STATE Add an arc from $(u_1, u_2)$ to $(v_1, v_2)$ with label $\ell$
+        and weight $w_1 + w_2$.
+
+    \ENDFOR
+\ENDWHILE
+\STATE \textbf{Return}: The intersected graph $\gI$.
+\end{algorithmic}
+\end{algorithm}

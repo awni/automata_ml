@@ -28,8 +28,8 @@ do
     done
 done
 
-for f in 'viterbi_recursion' 'viterbi_path_back' 'unigram' \
-         'bigram' 'asg_bigrams'
+for f in 'epsilon_intersect' 'viterbi_recursion' 'viterbi_path_back' \
+         'unigram' 'bigram' 'asg_bigrams'
 do
     dot -Tsvg figures/${f}.dot -o ${base}/${f}.svg
 done
