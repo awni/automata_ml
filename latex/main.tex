@@ -29,7 +29,6 @@
     footskip=18pt,
     headsep=25pt}
 
-\usepackage{subfiles}
 
 \usepackage[
   colorlinks=true,
@@ -67,22 +66,15 @@
   \href{mailto:awni.hannun@gmail.com}{awni.hannun@gmail.com}}}
 
 \begin{document}
-\maketitle
 
-\begin{abstract}
-    Graphs in speech recognition are important.
-\end{abstract}
-
-\tableofcontents
-
-\subfile{introduction}
-\subfile{acceptors_and_transducers}
-\subfile{basic_operations}
-\subfile{advanced_operations}
-\subfile{differentiable_automata}
-\subfile{extended_examples}
-
-\bibliographystyle{plainnat}
-\bibliography{references}
+\include{title}
+\include{toc}
+\include{introduction}
+\include{acceptors_and_transducers}
+\include{basic_operations}
+\include{advanced_operations}
+\include{differentiable_automata}
+\include{extended_examples}
+\include{bibliography}
 
 \end{document}
