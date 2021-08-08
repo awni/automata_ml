@@ -27,4 +27,4 @@ mv notebooks/figures/*.pdf latex/figures/.
 
 # Build latex pdf files
 cd latex
-build_latex.sh
+make
