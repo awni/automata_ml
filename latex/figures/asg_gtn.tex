@@ -1,0 +1,39 @@
+\begin{figure}
+\centering
+\begin{lstlisting}[language=Python, frame=single,
+    framesep=10pt,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries\color{magenta!70!black},
+    commentstyle=\bfseries\color{green!50!black},
+    otherkeywords={True, False},
+    xleftmargin=10pt,
+    xrightmargin=10pt,
+    ]
+def ASG(E, B, Ay):
+  # Compute constrained and normalization graphs:
+  AXy = gtn.intersect(gtn.intersect(B, Ay), E)
+  ZX = gtn.intersect(B, E)
+
+  # Forward both graphs:
+  AXy_score = gtn.forward_score(AXy)
+  ZX_score = gtn.forward_score(ZX)
+
+  # Compute the loss:
+  loss = gtn.negate(gtn.subtract(AXy_score, ZX_score))
+
+  # Clear the previous gradients:
+  E.zero_grad()
+  B.zero_grad()
+
+  # Compute gradients:
+  gtn.backward(loss, retain_graph=False)
+
+  # Return the loss and the gradients:
+  return loss.item(), E.grad(), B.grad()
+
+\end{lstlisting}
+\caption{An example implementation of the ASG loss function which takes as
+    input the emissions graph $\gE$, the transitions graph $\gB$, and the target
+    alignment graph $\gA_\vy$. The implementation uses the GTN framework.}
+\label{fig:asg_gtn}
+\end{figure}

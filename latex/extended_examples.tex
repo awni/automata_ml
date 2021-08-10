@@ -89,7 +89,7 @@ according to the allowed operations encoded as a graph.
 
 We first construct an edits graph $\gE$ which encodes the allowed operations.
 An example of an edits graph assuming a token set of $\{a, b\}$ is shown in
-figure~\ref{fig:edits}.  The insertion of a token is represented by the arcs
+figure~\ref{fig:edits}. The insertion of a token is represented by the arcs
 from state $0$ to state $1$ and has a cost of $1$. The deletion of a token is
 represented by the arcs from state $0$ to state $2$ which also incur a cost of
 $1$. All possible substitutions are encoded in the arcs from $0$ to $3$ and
@@ -111,11 +111,9 @@ make zero or more of any of the allowed edits. We then encode the first
 sequence $\vx$ in a graph $\gX$ and the second sequence $\vy$ in a graph $\gY$.
 All possible ways of editing $\vx$ to $\vy$ can be computed by taking the
 composition:
-
 $$
 \gP = \gX \circ \gE^* \circ \gY.
 $$
-
 The graph $\gP$ represents the set of all possible unique ways we can edit the
 sequence $\vx$ into $\vy$. The score of a given path in $\gP$ is the associated
 cost. We can then find the edit distance by computing the path with the
@@ -123,15 +121,16 @@ smallest score in $\gP$. For this, we could use the Viterbi algorithm with a
 $\min$ instead of a $\max$. Alternatively, we can use weights of $-1$ instead
 of $1$ in $\gE$ and use the Viterbi algorithm unchanged. In this case, the path
 with the largest score (the one with the least negative score) represents the
-edit distance. The actual edits (*i.e.* the insertions, deletions, and
+edit distance. The actual edits (\emph{i.e.} the insertions, deletions, and
 substitutions) can be found by computing the Viterbi path.
 
-\begin{example}
+\begin{example}[\unskip\nopunct]
 Compute the edit distance graph $\gP$ between $\vx = aba$ and $\vy = aabb$, the
 edit distance between the two sequences, and one possible set of operations
 which attain the edit distance.
 \end{example}
 
+\begin{proof}
 Using an equivalent but more compact representation of the edit distance graph
 $\gE^*$ yields the graph $\gP = \gX \circ \gE^* \circ \gY$, shown in
 figure~\ref{fig:edit_paths}. Each path in $\gP$ represents a unique conversion
@@ -176,6 +175,8 @@ The Viterbi path for the example is shown in figure~\ref{fig:edit_path}.
     \label{fig:edit_path}
 \end{figure}
 
+\end{proof}
+
 \subsection{$n$-gram Language Model}
 \label{sec:ngram_model}
 
@@ -188,7 +189,8 @@ c\}$ and we want to construct a unigram langauge model. Given counts of
 occurrences for each token in the vocabulary, we can construct an acceptor to
 represent the unigram language model. Suppose we are given the probabilities
 $0.5$, $0.2$, and $0.3$ for $a$, $b$, and $c$ respectively. The corresponding
-unigram graph is shown below. Note that the edge weights are log probabilities.
+unigram graph is shown in figure~\ref{fig:unigram}. Note that the edge weights
+are log probabilities.
 
 \begin{figure}
     \centering
@@ -202,29 +204,26 @@ the probability. The probability under the language model is $\frac{1}{2} \cdot
 \frac{1}{2} = \frac{1}{4}$. We can compute the log probability of $aa$ by
 intersecting its graph representation $\gX$ with the unigram graph $\gU$ and
 then computing the forward score:
-
 $$
 \log p(aa) = \LSE (\gX \circ \gU)
 $$
-
-
-The graph below shows the intersection $\gX \circ \gU$. The arc edges in the
-intersected graph contain the correct unigram scores, and the forward score
-gives the log probability of the sequence $aa$. In this case, the Viterbi score
-would give the same result since the graph has only one path.
+The graph in figure~\ref{fig:unigram_aa_scored} shows the intersection $\gX
+\circ \gU$. The arc edges in the intersected graph contain the correct unigram
+scores, and the forward score gives the log probability of the sequence $aa$.
+In this case, the Viterbi score would give the same result since the graph has
+only one path.
 
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/unigram_aa_scored}
     \caption{The sequence $aa$ scored with the unigram log probabilities from
-    the graph $\gU$ above.}
+    the graph $\gU$ in figure~\ref{fig:unigram}.}
     \label{fig:unigram_aa_scored}
 \end{figure}
 
 For an arbitrary sequence $\vx$ with a graph representation $\gX$ and an
 arbitrary $n$-gram language model with graph representation $\gN$, the log
 probability of $\vx$ is given by:
-
 $$
 \log p(\vx) = \LSE(\gX \circ \gN).
 $$
@@ -232,7 +231,14 @@ $$
 Next, let's see how to represent a bigram language model as a graph. From
 there, the generalization to arbitrary order $n$ is relatively straightforward.
 Assume again we have the token set $\{a, b, c\}$. The bigram model is shown in
-the graph below.
+the graph in figure~\ref{fig:bigram}. Each state is labeled with the token
+representing the most recently seen input.  For a bigram model we only need to
+remember the previous token to know which score to use when processing the next
+token. For a trigram model we would need to remember the previous two tokens.
+For an $n$-gram model we would need to remember the previous $n-1$ tokens. The
+label and score pair leaving each state represent the corresponding conditional
+probability (technically these should be log probabilities). Each state has an
+outgoing arc for every possible token in the token set.
 
 \begin{figure}
     \centering
@@ -242,15 +248,6 @@ the graph below.
     probability.}
     \label{fig:bigram}
 \end{figure}
-
-Each state is labeled with the token representing the most recently seen input.
-For a bigram model we only need to remember the previous token to know which
-score to use when processing the next token. For a trigram model we would need
-to remember the previous two tokens. For an $n$-gram model we would need to
-remember the previous $n-1$ tokens. The label and score pair leaving each state
-represent the corresponding conditional probability (technically these should
-be log probabilities). Each state has an outgoing arc for every possible token
-in the token set.
 
 \begin{example}
 \label{ex:ngram}
@@ -298,7 +295,6 @@ on some or all of $\mX$, but I won't inlcude this in the notation for
 simplicity. Let $\va = [a_1, \ldots, a_T]$ be one possible aligment between
 $\mX$ and $\vy$. The alignment $\va$ also has length $T$. To compute a score
 for $\va$, we sum the sequence of scores for each token:
-
 $$
 s(\va) = \sum_{t=1}^T s_t(a_t)
 $$
@@ -307,17 +303,13 @@ Let $\gA_{\mX,\vy}$ denote the set of all possible alignments between $\mX$ and
 $\vy$. We use the individual alignment scores to compute a conditional
 probability of the output $\vy$ given the input $\mX$ by marginalizing over
 $\gA_{\mX,\vy}$:
-
 $$
 \log p(\vy \mid \mX) = \LSE_{\va \in \gA_{\mX, \vy}} s(\va) - \log Z.
 $$
-
 The normalization term $Z$ is given by:
-
 $$
 Z = \sum_{\va \in \gZ_\mX} e^{s(\va)},
 $$
-
 where $\gZ_\mX$ is the set of all possible length $T$ alignments (the same
 length as $X$). Computing the summations over $\gA_{\mX,\vy}$ and $\gZ_\mX$
 explicitly is not tractable because the sizes of these sets grow rapidly with
@@ -331,13 +323,13 @@ Let's start with the normalization term $Z$. The set $\gZ_\mX$ encodes all
 possible outputs of length $T$, where $T$ is the length of $\mX$. As an
 example, assume $T=4$ and we have three possible output tokens $\{a, b, c\}$.
 If the scores for each otuput are independent, we can represent $\gZ_\mX$ with
-the graph below. The scores on the arcs are given by the model $s_t(\cdot)$.
-These scores are often called the *emissions*, and the graph itself is
-sometimes called the emissions graph. I'll use $\gE$ to represent the emissions
-graph. In this case the emissions graph $\gE$ is the same as the normalization
-graph $\gZ_\mX$; however, in general they may be different. The log
-normalization term is the forward score of the emissions graph, $\log Z =
-\LSE(\gE)$.
+the graph in figure~\ref{fig:asg_emissions}. The scores on the arcs are given
+by the model $s_t(\cdot)$.  These scores are often called the \emph{emissions},
+and the graph itself is sometimes called the emissions graph. I'll use $\gE$ to
+represent the emissions graph. In this case the emissions graph $\gE$ is the
+same as the normalization graph $\gZ_\mX$; however, in general they may be
+different. The log normalization term is the forward score of the emissions
+graph, $\log Z = \LSE(\gE)$.
 
 \begin{figure}
     \centering
@@ -351,8 +343,8 @@ Let's turn to the set $\gA_{\mX, \vy}$ which we will also represent as an
 acceptor. This acceptor should have a path for every possible alignment between
 $\mX$ and $\vy$. We'll construct $\gA_{\mX, \vy}$ in two steps. First, we can
 encode the set of allowed alignments of arbitrary length for a given sequence
-$\vy$ with a graph, $\gA_\vy$. As an example, for the sequence $ab$ the graph
-$\gA_\vy$ is shown below.
+$\vy$ with a graph, $\gA_\vy$. As an example, the graph $\gA_\vy$ for the
+sequence $ab$ is shown in figure~\ref{fig:asg_alignments}.
 
 \begin{figure}
     \centering
@@ -363,12 +355,12 @@ $\gA_\vy$ is shown below.
     \label{fig:asg_alignments}
 \end{figure}
 
-This graph has a simple interpretation. Each token in the output $ab$ can
-repeat one or more times in the alignment. We can then construct
-$\gA_{\mX,\vy}$ by intersecting $\gA_\vy$ with the emissions graph $\gE$, which
-represents all possible sequences of length $T$. This gives $\gA_{\mX,\vy} =
-\gA_\vy \circ \gE$. An example of $\gA_{\mX, \vy}$ is shown below for the
-sequence $ab$ with $T=4$.
+The graph in figure~\ref{fig:asg_alignmets} has a simple interpretation. Each
+token in the output $ab$ can repeat one or more times in the alignment. We can
+then construct $\gA_{\mX,\vy}$ by intersecting $\gA_\vy$ with the emissions
+graph $\gE$, which represents all possible sequences of length $T$. This gives
+$\gA_{\mX,\vy} = \gA_\vy \circ \gE$. An example of $\gA_{\mX, \vy}$ is shown in
+figure~\ref{fig:asg_constrained} for the sequence $ab$ with $T=4$.
 
 \begin{figure}
     \centering
@@ -379,27 +371,26 @@ sequence $ab$ with $T=4$.
 \end{figure}
 
 In terms of graph operations, we can write the ASG criterion as:
-
-$$
-p(\vy \mid \mX) = \LSE(\gA_\vy \circ \gE) - \LSE(\gE).
-$$
+\begin{equation}
+    \label{eq:asg_graph_loss}
+    p(\vy \mid \mX) = \LSE(\gA_\vy \circ \gE) - \LSE(\gE).
+\end{equation}
 
 %% TODO
 Aside: Global or Local Normalization
 
-The equation for the ASG criterion is *globally normalized*. The term $Z$ is
-the global normalization term and it ensure that the conditional probability
+The equation for the ASG criterion is \emph{globally normalized}. The term $Z$
+is the global normalization term and it ensure that the conditional probability
 $p(\vy \mid \mX)$ is a valid distribution; that is it sums to one over $\vy$.
 The global normalization term $Z$ (also known as the partition function) is
 often the most expensive part of the loss to compute.
 
-In some cases the global normalization can be avoided by using a *local
-normalization*. For example, in the version of ASG presented above, the path
+In some cases the global normalization can be avoided by using a \emph{local
+normalization}. For example, in the version of ASG presented above, the path
 score for $\va$ decomposes into a separate score for each time-step. In this
 case, we can compute the exact some loss by normalizing the scores $s_t(y)$ at
 each time-step and dropping the global normalizer $Z$. Concretely, we compute
 the normalized scores at each time-step:
-
 $$
 p_t(y) = \frac{e^{s_t(y)}}{\sum_z e^{s_t(z)}}.
 $$
@@ -419,7 +410,7 @@ $$
 $$
 
 In the version which uses graph operations, we use the log-normalized scores
-$\log p_t(y)$ for the arc weights on the emissions graph $\gE$. The graph based
+$\log p_t(y)$ for the arc weights on the emissions graph $\gE$. The graph-based
 loss function then simplifies to:
 
 $$
@@ -499,11 +490,9 @@ Putting these two terms together yields the right hand side of what we wanted to
 
 The original ASG loss function also includes bigram transition scores. The
 alignment score with transitions, $h(a_{t-1}, a_t)$, included is given by:
-
 $$
 s(\va) = \sum_{t=1}^T s_t(a_t) + h(a_t, a_{t-1}),
 $$
-
 where $a_0$ is a special start of sequence token $\textrm{<s>}$. We can use the
 alignment scores in the same manner as above and the rest of the loss function
 is unchanged.
@@ -511,7 +500,8 @@ is unchanged.
 Let's see how to incorporate transitions using an acceptor and graph
 operations. I'll rely on the ideas introduced in section~\ref{sec:ngram_model}
 on $n$-gram langauge models, so now is a good time to review that section. The
-first step is to encode the bigram model as a graph, as shown below:
+first step is to encode the bigram model as a graph, as in
+figure~\ref{fig:asg_bigrams}.
 
 \begin{figure}
     \centering
@@ -527,13 +517,11 @@ bigram graph $\gB$ with the output alignment graph $\gA_\vy$. To incorporate
 transition scores in the normalization term $Z$, we intersect $\gB$ with the
 emissions graph $\gE$. The loss function using graph operations including
 transitions becomes:
-
 $$
 p(\vy \mid \mX) = \LSE(\gB \circ \gA_\vy \circ \gE) - \LSE(\gB \circ \gE).
 $$
-
 We see here an example of the expressive power of a graph-based implementation
-of the loss function. In a non-graph based implementation of ASG, the use of a
+of the loss function. In a non-graph-based implementation of ASG, the use of a
 bigram transition function is hard-coded. In the graph-based version, the
 transition model $\gB$ could be a unigram, bigram, trigram, or otherwise
 arbitrary $n$-gram. Of course, the size of the transition graph increases
@@ -548,10 +536,14 @@ compute the gradient of the ASG loss with respect to these scores. These
 derivatives are straightforward to compute in a framework with automatic
 differentiation.
 
-A complete implementation of the ASG loss function which takes as input an
-emissions graph $\gE$, a transitions graph $\gB$, and an output alignment graph
-$\gA_\vy$ is shown below. I would like to make three observations about this
-code:
+\input{figures/asg_gtn}
+
+An example implementation of the ASG loss function in the GTN
+framework~\footnote{The GTN framework is open source and available at
+\url{https://github.com/gtn-org/gtn}} is shown in figure~\ref{fig:asg_gtn}.
+This function takes as input an emissions graph $\gE$, a transitions graph
+$\gB$, and an output alignment graph $\gA_\vy$ is shown below. I would like to
+make three observations about this code:
 
 \begin{enumerate}
     \item The implementation is concise. Given the appropriate graph inputs,
@@ -567,33 +559,10 @@ code:
         input graph argument `B` without needing to change the function.
 \end{enumerate}
 
-
-%```python
-%def ASG(E, B, AY):
-%    # Compute constrained and normalization graphs:
-%    AXY = gtn.intersect(gtn.intersect(B, AY), E)
-%    ZX = gtn.intersect(B, E)
-%
-%    # Forward both graphs:
-%    AXY_score = gtn.forward_score(AXY)
-%    ZX_score = gtn.forward_score(ZX)
-%
-%    # Compute the loss:
-%    loss = gtn.negate(gtn.subtract(AXY_score, ZX_score))
-%
-%    # Clear the previous gradients:
-%    E.zero_grad()
-%    B.zero_grad()
-%
-%    # Compute gradients:
-%    gtn.backward(loss, retain_graph=False)
-%
-%    return loss.item()
-
 \subsubsection{ASG with Transducers}
 
 As a final step, I'll show how to construct the ASG criterion from even simpler
-transducer buildling blocks. The advantage of this approach is that it lets us
+transducer building blocks. The advantage of this approach is that it lets us
 easily experiment with changes to the criterion at a deeper level.
 
 Our goal is to compute $\gA_\vy$ from simpler graphs instead of hard-coding its
@@ -601,8 +570,8 @@ structure directly. The simpler graphs will represent the individual tokens and
 the target sequence $\vy$.
 
 The target sequence graph $\gY$ is a simple linear-chain graph with arc labels
-taken consecutively from the sequence $\vy$. The graph below shows an example
-for the sequence $ab$.
+taken consecutively from the sequence $\vy$. The graph in
+figure~\ref{fig:asg_target_ab} shows an example for the sequence $ab$.
 
 \begin{figure}
     \centering
@@ -615,8 +584,8 @@ Next we construct the individual token graphs. These graphs encode the
 assumption that each token in an output maps to one or more repeats of the same
 token in an alignment. For example for the output $\vy = ab$ and alignment $\va
 = aaaabb$ the token $a$ maps to $aaaa$ and $b$ maps to  $bb$. For the token
-$a$, we can construct the token graph $\gT_a$ shown below which has the desired
-property.
+$a$, the token graph $\gT_a$ shown in figure~\ref{fig:asg_tokens_a} has the
+desired property.
 
 \begin{figure}
     \centering
@@ -632,7 +601,7 @@ set, we construct the complete token graph $\gT$ by taking the union of the
 individual token graphs and computing the closure. If we have a token set $\{a,
 b, c\}$, then we construct individual token graphs $\gT_a$, $\gT_b$, and
 $\gT_c$. The complete token graph $\gT$ is given by $\gT = (\gT_a + \gT_b +
-\gT_c)^*$.
+\gT_c)^*$. The complete token graph is shown in figure~\ref{fig:asg_tokens}.
 
 \begin{figure}
     \centering
@@ -647,15 +616,16 @@ The graph $\gA_\vy$ can then be constructed by composing $\gT$ and $\gY$. In
 other words, $\gA_\vy = \gT \circ \gY$. We have to be careful here. The graphs
 $\gT$ and $\gY$ are transducers and their order in the composition makes a
 difference. Because of the way we constructed them, we will only get the
-correct $\gA_\vy$ if $\gT$ is on the first argument to the composition.
+correct $\gA_\vy$ if $\gT$ is the first argument to the composition.
 
-At this point, we can compute the ASG loss just as before. The remaining graphs
-$\gE$ and $\gB$ are unchanged.
+At this point, we can compute the ASG loss just as before using
+equation~\ref{eq:asg_graph_loss}. The remaining graphs $\gE$ and $\gB$ are
+unchanged.
 
-As we mentioned, this decomposition of the ASG loss using simple graph building
-blokcs makes it easier to change. In the following section, we will show how to
-construct a different algorithm, Connectionist Temporal Classification, with
-only a minor modification to the ASG loss.
+This decomposition of the ASG loss using simple graph building blokcs makes it
+easier to change. In the following section, I will show how to construct a
+different algorithm, Connectionist Temporal Classification, with only a minor
+modification to the ASG loss.
 
 \subsection{Connectionist Temporal Classification}
 
@@ -712,23 +682,18 @@ b$, both of which correspond to the output $ab$ instead of $abb$.
 
 In equations, CTC is indistinguishable from ASG without transitions. The loss
 is given by:
-
 $$
 \log p(\vy \mid \mX) = \LSE_{\va \in \gA_{\mX, \vy}} \log p(\va).
 $$
-
 The distinction between ASG and CTC is in the set of allowed alignments
-$\gA_{\mX, \vy}$.
-
-Assuming we have log normalized scores on the arc weights of the emissions
-graph $\gE$, the graph based CTC loss is:
-
+$\gA_{\mX, \vy}$. Assuming we have log normalized scores on the arc weights of
+the emissions graph $\gE$, the graph-based CTC loss is:
 $$
 \log p(\vy \mid \mX) = \LSE(\gA_\vy \circ \gE),
 $$
-
 where the distinction from ASG is in the graph $\gA_\vy$. An example alignment
-graph $\gA_\vy$ for CTC for the sequence $ab$ is shown below.
+graph $\gA_\vy$ for CTC for the sequence $ab$ is shown in
+figure~\ref{fig:ctc_alignments}.
 
 \begin{figure}
     \centering
@@ -739,7 +704,7 @@ graph $\gA_\vy$ for CTC for the sequence $ab$ is shown below.
     \label{fig:ctc_alignments}
 \end{figure}
 
-The CTC alignment graph above encodes the assumptions regarding the blank
+The CTC alignment graph encodes the assumptions regarding the blank
 token, $\blank$. The alignment can optionally start with $\blank$ as in state
 $0$. The alignment can optionally end in $\blank$ since both state $3$ and $4$
 are accept states. And lastly, the blank is optional between $a$ and $b$ since
@@ -759,10 +724,11 @@ Construct the CTC $\gA_\vy$ graph for the sequence $aa$.
     \label{fig:ctc_alignments_aa}
 \end{figure}
 
-The graph $\gA_\vy$ for the sequence $\vy = aa$ is shown above. Notice the
-$\blank$ token inbetween the first and second $a$ is not optional. The
-onlydifference between the graph for $aa$ and the graph for $ab$ is the removal
-of the arc between states $1$ and $3$.
+The graph $\gA_\vy$ for the sequence $\vy = aa$ is shown in
+figure~\ref{fig:ctc_alignments_aa}. Notice the $\blank$ token inbetween the
+first and second $a$ is not optional. The onlydifference between the graph
+for $aa$ and the graph for $ab$ is the removal of the arc between states
+$1$ and $3$.
 \end{proof}
 
 \subsubsection{CTC from Transducers}
@@ -773,23 +739,19 @@ transducer buildling blocks is that it makes constructing CTC almost trivial.
 To get CTC, we just need to add the $\blank$ token to the tokens graph with the
 correct semantics. The $\blank$ token graph is a single start and accept
 state which encodes the fact that the blank is optional. The state has a
-self-loop which transduces $\blank$ to $\epsilon$ since $\blank$ never yields
+self-loop which transduces $\blank$ to $\epsilon$, since $\blank$ never yields
 an output token.
 
-In graph operations, for ASG with the alphabet $\{a, b, c\}$, the graph
-$\gA_\vy$ is given by:
-
+Recall for ASG with the alphabet $\{a, b, c\}$, the graph $\gA_\vy$ is given
+by:
 $$
 \gA_\vy = (\gT_a + \gT_b + \gT_c)^* \circ \gY.
 $$
-
 Assuming $\gT_\blank$ represents the $\blank$ token transducer as described
 above, the CTC graph $\gA_\vy$ is given by:
-
 $$
 \gA_\vy = (\gT_a + \gT_b + \gT_c + \gT_\blank)^* \circ \gY.
 $$
-
 The equation above shows how CTC is really the result of one core additional
 building block encoding the correct behavior of the $\blank$ token. There is
 one caveat which is that the equation does not force the $\blank$ token

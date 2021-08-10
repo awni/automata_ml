@@ -13,7 +13,7 @@ For citations, please use this BibTex entry:
 @book{hannun2021,
     title={An Introduction to Weighted Automata in Machine Learning},
     author={Awni Hannun},
-    note={\url{https://awnihannun.com/writing/machine_learning_automata/}},
+    note={\url{https://awnihannun.com/writing/automata_ml.html}},
     year={2021}
 }
 ```

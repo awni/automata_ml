@@ -8,10 +8,17 @@ cp figures/*.svg notebooks/figures/
 # Generate svg figures:
 figures/gen_figs.sh
 
+if [ -z $1 ]
+then
+    files='acceptors_and_transducers basic_operations
+           advanced_operations differentiable_automata
+           extended_examples'
+else
+    files=$1
+fi
+
 # Execute notebooks and convert to HTML:
-for nb in 'acceptors_and_transducers' 'basic_operations' \
-          'advanced_operations' #'differentiable_automata' \
-#          'extended_examples'
+for nb in $files
 do
     jupyter nbconvert --to html \
         --output-dir=notebooks \
@@ -27,4 +34,4 @@ mv notebooks/figures/*.pdf latex/figures/.
 
 # Build latex pdf files
 cd latex
-make
+make $1
