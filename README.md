@@ -20,25 +20,5 @@ For citations, please use this BibTex entry:
 
 ### Running Notebooks
 
-To run the notebooks, clone the repo:
-
-```
-git clone git@github.com:awni/automata_ml.git
-```
-
-Then install [GTN](https://github.com/gtn-org/gtn), the software I use for
-constructing graphs:
-
-```
-pip install gtn
-```
-
-From `notebooks/`, launch the Jupyter server:
-
-```
-jupyter notebook
-```
-
-This should open a browser window from which you can execute all of the
-notebooks.
-
+The `notebooks/` directory has [instructions](notebooks/README.md) on running
+the notebooks.

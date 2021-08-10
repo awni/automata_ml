@@ -16,3 +16,6 @@ introduction acceptors_and_transducers basic_operations advanced_operations diff
 	latexmk -pdf main -jobname=m_$(NAME) -pretex="\includeonly{$(NAME)}" -usepretex
 	mv m_$(NAME).pdf $(NAME).pdf
 	rm m_$(NAME)*
+
+clean:
+	rm -f *.pdf *.aux
