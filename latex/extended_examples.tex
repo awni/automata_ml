@@ -17,7 +17,7 @@ that $n$-gram at any location in the string. If $\vy$ denotes the $n$-gram, we
 want to construct the graph equivalent of the regular expression $.*\vy.*$
 where $.*$ indicates zero of more occurrences of any token in the token set.
 
-Suppose we want to count the number of ocurrences of the bigram $aa$ in
+Suppose we want to count the number of occurrences of the bigram $aa$ in
 $aaabaa$. For the bigram $aa$, and the token set $\{a, b, c\}$, the $n$-gram
 matching graph is shown in figure~\ref{fig:bigram_aa}. The first and last state
 allow self-loops on any token in the token set. These states correspond to the
@@ -185,7 +185,7 @@ will then use the acceptor to compute the language model probability for a
 given sequence.
 
 Let's start with a very simple example. Suppose we have the token set $\{a, b,
-c\}$ and we want to construct a unigram langauge model. Given counts of
+c\}$ and we want to construct a unigram language model. Given counts of
 occurrences for each token in the vocabulary, we can construct an acceptor to
 represent the unigram language model. Suppose we are given the probabilities
 $0.5$, $0.2$, and $0.3$ for $a$, $b$, and $c$ respectively. The corresponding
@@ -285,14 +285,14 @@ $\mX$ and $\vy$.
 In ASG, the output sequence is aligned to a given input by allowing one or more
 consecutive repeats of each token in the output. Suppose we have an input of
 length $5$ and the output sequence $ab$. Some possible alignments of the output
-are $aaabb$, $abbbb$, and $aaaab$. Some invalid alignmets are $abbbba$, $aaab$,
+are $aaabb$, $abbbb$, and $aaaab$. Some invalid alignments are $abbbba$, $aaab$,
 and $aaaaa$. These are invalid because the first corresponds to the output
 $aba$, the second is too short, and the third corresponds to the output $a$.
 
 For each time-step of the input, we have a model $s_t(a)$ which assigns a score
 for every possible output token $a$. Note the model $s_t(\cdot)$ is conditioned
-on some or all of $\mX$, but I won't inlcude this in the notation for
-simplicity. Let $\va = [a_1, \ldots, a_T]$ be one possible aligment between
+on some or all of $\mX$, but I won't include this in the notation for
+simplicity. Let $\va = [a_1, \ldots, a_T]$ be one possible alignment between
 $\mX$ and $\vy$. The alignment $\va$ also has length $T$. To compute a score
 for $\va$, we sum the sequence of scores for each token:
 $$
@@ -322,7 +322,7 @@ representation is intended.
 Let's start with the normalization term $Z$. The set $\gZ_\mX$ encodes all
 possible outputs of length $T$, where $T$ is the length of $\mX$. As an
 example, assume $T=4$ and we have three possible output tokens $\{a, b, c\}$.
-If the scores for each otuput are independent, we can represent $\gZ_\mX$ with
+If the scores for each output are independent, we can represent $\gZ_\mX$ with
 the graph in figure~\ref{fig:asg_emissions}. The scores on the arcs are given
 by the model $s_t(\cdot)$.  These scores are often called the \emph{emissions},
 and the graph itself is sometimes called the emissions graph. I'll use $\gE$ to
@@ -355,7 +355,7 @@ sequence $ab$ is shown in figure~\ref{fig:asg_alignments}.
     \label{fig:asg_alignments}
 \end{figure}
 
-The graph in figure~\ref{fig:asg_alignmets} has a simple interpretation. Each
+The graph in figure~\ref{fig:asg_alignments} has a simple interpretation. Each
 token in the output $ab$ can repeat one or more times in the alignment. We can
 then construct $\gA_{\mX,\vy}$ by intersecting $\gA_\vy$ with the emissions
 graph $\gE$, which represents all possible sequences of length $T$. This gives
@@ -365,7 +365,7 @@ figure~\ref{fig:asg_constrained} for the sequence $ab$ with $T=4$.
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/asg_constrained}
-    \caption{The alignment graph $\gA_{\mX, \vy}$ for the an input $\mX$ with
+    \caption{The alignment graph $\gA_{\mX, \vy}$ for the input $\mX$ with
     $T=4$ time-steps and an output $\vy = ab$.}
     \label{fig:asg_constrained}
 \end{figure}
@@ -378,101 +378,85 @@ In terms of graph operations, we can write the ASG criterion as:
 
 \begin{tcolorbox}[breakable, colback=white!95!black, colframe=white!45!black,
     sharp corners=all, title=Global or Local Normalization]
-The equation for the ASG criterion is \emph{globally normalized}. The term $Z$
-is the global normalization term and it ensure that the conditional probability
-$p(\vy \mid \mX)$ is a valid distribution; that is it sums to one over $\vy$.
-The global normalization term $Z$ (also known as the partition function) is
-often the most expensive part of the loss to compute.
 
+The ASG criterion is \emph{globally normalized}. The term $Z$ is the global
+normalization term. It ensures that the conditional probability $p(\vy \mid
+\mX)$ distribution is valid in that it sums to one over $\vy$. The global
+normalization term $Z$ (also known as the partition function) is often the
+most expensive part of the loss to compute.
+\\
+\\
 In some cases the global normalization can be avoided by using a \emph{local
-normalization}. For example, in the version of ASG presented above, the path
-score for $\va$ decomposes into a separate score for each time-step. In this
-case, we can compute the exact some loss by normalizing the scores $s_t(y)$ at
-each time-step and dropping the global normalizer $Z$. Concretely, we compute
-the normalized scores at each time-step:
+normalization}. For example, in the transition-free version of ASG
+described above, the path score for $\va$ decomposes into a separate score
+for each time-step. In this case, we can compute the exact same loss by
+normalizing the scores $s_t(a)$ at each time-step and dropping the term
+$Z$. Concretely, we compute the normalized scores at each time-step:
 $$
-p_t(y) = \frac{e^{s_t(y)}}{\sum_z e^{s_t(z)}}.
+p_t(a) = \frac{e^{s_t(a)}}{\sum_z e^{s_t(z)}}.
 $$
-
 We then replace the unnormalized scores with the log-normalized scores when
 computing the score for an alignment:
-
 $$
-\log p(\va) = \sum_{t=1}^T \log p_t(a_t)
+\log p(\va) = \sum_{t=1}^T \log p_t(a_t).
 $$
-
 As a last step, we remove the global normalization term $Z$ from the loss
 function, but leave it otherwise unchanged:
-
 $$
-\log p(\vy \mid \mX) = \LSE_{\va \in \gA_{\mX, \vy}} \log p(\va)
+\log p(\vy \mid \mX) = \LSE_{\va \in \gA_{\mX, \vy}} \log p(\va).
 $$
-
-In the version which uses graph operations, we use the log-normalized scores
-$\log p_t(y)$ for the arc weights on the emissions graph $\gE$. The graph-based
-loss function then simplifies to:
-
+In the version which uses graph operations, the log-normalized scores $\log
+p_t(y)$ become the arc weights of the emissions graph $\gE$. The graph
+based loss function then simplifies to:
 $$
-\log p(\vy \mid \mX) = \LSE(\gA_\vy \circ \gE)
+\log p(\vy \mid \mX) = \LSE(\gA_\vy \circ \gE).
 $$
 
-We can prove that this locally normalized version of the ASG loss is equivalent
-to the globally normalized version. To do this, we need to show that:
-
-$$
+We can prove that the locally normalized version of the transition-free ASG loss is equivalent to the globally normalized version. To do this, we need to show:
+\begin{equation}
+\label{eq:local_global}
 \LSE_{\va \in \gA_{\mX, \vy}} \log p(\va) = \LSE_{\va \in \gA_{\mX, \vy}} s(\va) - \log Z
+\end{equation}
+To show this, we need two identities. The first identity let's us pull
+independent terms out of the $\LSE$ operation:
 $$
-
-To prove this we'll need to rely on two identities. The first identity is:
-
+\LSE_x(x + y) = \LSE(x) + y.
 $$
-\LSE_x( x + y) = \LSE(x) + y
-$$
-
-which we can prove:
-
+The proof of this identity is below:
 $$
 \LSE_x (x + y) = \log \sum_x e^{x+y} = \log \sum_x e^x e^y = \log \sum_x e^x + \log e^y = \LSE(x) + y.
 $$
-
 The second identity let's us rearrange products and sums:
-
 $$
 \prod_{t=1}^T \sum_{z} s_t(z) = \sum_\vz \prod_{t=1}^t s_t(z_t).
 $$
-
-In words, the product over $t$ of the sum over possible values of the token $z$
-is the same as the sum over all possible token sequences $\vz$ of length $T$ of
-the product over each time-step in the sequence. A short proof is below:
+The term on the left is the product over $t$ of the sum of $s_t(z)$ over all
+possible values of the token $z$. The term on the right is sum over all
+possible token sequences $\vz$ of length $T$ of the product scores
+$s_t(z_t)$ for each time-step in the sequence. A short proof is below:
 
 \begin{align*}
 \prod_{t=1}^T \sum_{z} s_t(z) &= \left(\sum_{z} s_1(z)\right) \ldots \left(\sum_{z} s_T(z)\right) \\
-&= \sum_{z_1} \ldots \sum_{z_T} \prod_{t=1}^t s_t(z_t) \\
-&= \sum_{\vz}\prod_{t=1}^t s_t(z_t).
+&= \sum_{z_1} \ldots \sum_{z_T} \prod_{t=1}^T s_t(z_t) \\
+&= \sum_{\vz}\prod_{t=1}^T s_t(z_t).
 \end{align*}
 
-Starting from the left hand side of the equation we are trying to show, we have:
-
+We are now ready to verify equation~\ref{eq:local_global}. Starting from the
+left hand side of equation~\ref{eq:local_global}, we have:
 \begin{align*}
 \LSE_{\va \in \gA_{\mX, \vy}} \log p(\va) &= \LSE_{\va \in \gA_{\mX, \vy}} \sum_{t=1}^T \log p_t(a_t) \\
 &= \LSE_{\va \in \gA_{\mX, \vy}} \sum_{t=1}^T \log \frac{e^{s_t(a_t)}}{\sum_z e^{s_t(z)}} \\
-&= \LSE_{\va \in \gA_{\mX, \vy}} \left( \sum_{t=1}^T s_t(a_t) - \sum_{t=1}^T \log \sum_z e^{s_t(z)} \right)\\
+&= \LSE_{\va \in \gA_{\mX, \vy}} \left( \sum_{t=1}^T s_t(a_t) - \sum_{t=1}^T \log \sum_z e^{s_t(z)} \right).\\
 \end{align*}
-
 Using the first identity, we get:
-
 \begin{align*}
 \LSE_{\va \in \gA_{\mX, \vy}} \log p(\va) &= \LSE_{\va \in \gA_{\mX, \vy}} \left( \sum_{t=1}^T s_t(a_t)\right) - \sum_{t=1}^T \log \sum_z e^{s_t(z)} \\
 \end{align*}
-
 The first term on the right is:
-
 $$
-\LSE_{\va \in \gA_{\mX, \vy}} \left( \sum_{t=1}^T s_t(a_t)\right) = \LSE_{\va \in \gA_{\mX, \vy}} s(\va),
+\LSE_{\va \in \gA_{\mX, \vy}} \left( \sum_{t=1}^T s_t(a_t)\right) = \LSE_{\va \in \gA_{\mX, \vy}} s(\va).
 $$
-
-Using the second idenity, the second term on the right becomes:
-
+Using the second identity, the second term on the right becomes:
 \begin{align*}
 \sum_{t=1}^T \log \sum_z e^{s_t(z)} &= \log \prod_{t=1}^T \sum_z e^{s_t(z)} \\
 &= \log \sum_{\vz \in \mathcal{\gZ_\mX}} \prod_{t=1}^T e^{s_t(z_t)} \\
@@ -481,7 +465,8 @@ Using the second idenity, the second term on the right becomes:
 &= \log Z.
 \end{align*}
 
-Putting these two terms together yields the right hand side of what we wanted to show.
+Putting these two terms together yields the right hand side of
+equation~\ref{eq:local_global}.
 \end{tcolorbox}
 
 \subsubsection{Transitions}
@@ -497,7 +482,7 @@ is unchanged.
 
 Let's see how to incorporate transitions using an acceptor and graph
 operations. I'll rely on the ideas introduced in section~\ref{sec:ngram_model}
-on $n$-gram langauge models, so now is a good time to review that section. The
+on $n$-gram language models, so now is a good time to review that section. The
 first step is to encode the bigram model as a graph, as in
 figure~\ref{fig:asg_bigrams}.
 
@@ -620,7 +605,7 @@ At this point, we can compute the ASG loss just as before using
 equation~\ref{eq:asg_graph_loss}. The remaining graphs $\gE$ and $\gB$ are
 unchanged.
 
-This decomposition of the ASG loss using simple graph building blokcs makes it
+This decomposition of the ASG loss using simple graph building blocks makes it
 easier to change. In the following section, I will show how to construct a
 different algorithm, Connectionist Temporal Classification, with only a minor
 modification to the ASG loss.
@@ -631,7 +616,7 @@ Connectionist Temporal Classification (CTC) is another loss function which
 assigns a conditional probability $p(\vy \mid \mX)$ when the input length $T$
 and output length $U$ are variable, and the alignment between them is unknown.
 Like ASG, CTC gets around the fact that the alignment is unknown by assuming a
-set of allowed alignments and marginilazing over this set. In CTC, the length
+set of allowed alignments and marginalizing over this set. In CTC, the length
 of the output $\vy$ is also constrained in terms of the length of the input.
 For CTC, the output length $U$ must satisfy $U + R_\vy \le T$, where $R_\vy$ is
 the number of consecutive repeats in $\vy$.
@@ -665,7 +650,7 @@ The blank token in CTC allows for this by representing an input time step which
 does not correspond to any output.
 
 I'll denote the CTC blank token with $\blank$. The token $\blank$ can appear
-zero or more times in the alignment, and it can be at the beginning, inbetween,
+zero or more times in the alignment, and it can be at the beginning, in between,
 or end of the tokens of the output $\vy$. If $\vy$ has consecutive repeats,
 then there must be at least one $\blank$ between them in any alignment. So the
 optional blank token is a solution to both the modeling of null input time
@@ -698,7 +683,7 @@ figure~\ref{fig:ctc_alignments}.
     \includegraphics[scale=\dotscale]{figures/ctc_alignments}
     \caption{The CTC alignment graph $\gA_\vy$ for the sequence $ab$. The graph
     encodes the fact that each output token can repeat one or more with an
-    optional $\blank$ at the beginning, end, or inbetween $a$ and $b$.}
+    optional $\blank$ at the beginning, end, or in between $a$ and $b$.}
     \label{fig:ctc_alignments}
 \end{figure}
 
@@ -723,8 +708,8 @@ Construct the CTC $\gA_\vy$ graph for the sequence $aa$.
 \end{figure}
 
 The graph $\gA_\vy$ for the sequence $\vy = aa$ is shown in
-figure~\ref{fig:ctc_alignments_aa}. Notice the $\blank$ token inbetween the
-first and second $a$ is not optional. The onlydifference between the graph
+figure~\ref{fig:ctc_alignments_aa}. Notice the $\blank$ token in between the
+first and second $a$ is not optional. The only difference between the graph
 for $aa$ and the graph for $ab$ is the removal of the arc between states
 $1$ and $3$.
 \end{proof}
@@ -733,7 +718,7 @@ $1$ and $3$.
 
 Like ASG we can construct the graph $\gA_\vy$ used in CTC from smaller building
 blocks. In fact, one of the motivations of decomposing ASG into simpler
-transducer buildling blocks is that it makes constructing CTC almost trivial.
+transducer building blocks is that it makes constructing CTC almost trivial.
 To get CTC, we just need to add the $\blank$ token to the tokens graph with the
 correct semantics. The $\blank$ token graph is a single start and accept
 state which encodes the fact that the blank is optional. The state has a
@@ -753,6 +738,6 @@ $$
 The equation above shows how CTC is really the result of one core additional
 building block encoding the correct behavior of the $\blank$ token. There is
 one caveat which is that the equation does not force the $\blank$ token
-inbetween repeats, so they are not handled correctly. Encoding this constraint
+in between repeats, so they are not handled correctly. Encoding this constraint
 through operations on the simpler transducers requires more work but is
 certainly doable.
