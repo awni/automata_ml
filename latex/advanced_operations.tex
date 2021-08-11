@@ -519,21 +519,16 @@ weights of all possible paths from any start state to any accept state in the
 graph. The weight of the highest scoring path is the \emph{Viterbi score}, and the
 path itself is the \emph{Viterbi path}.
 
-\begin{center}
-\begin{tabular}{p{.95\textwidth}}
-\midrule\\
-\vspace{-10mm}
-\subsubsection{Aside: Shortest Distance}
+\begin{tcolorbox}[colback=white!95!black, colframe=white!45!black,
+    sharp corners=all, title=Shortest Distance]
 In some descriptions of weighted automata, the forward and Viterbi score are
 introduced as shortest distance algorithms under a respective semiring. The
-forward score corresponds to the log semiring and the Viterbi score corresponds
-to the tropical semiring. This is a more general perspective, and useful if you
-intend to use other semirings. However, we only need the log and tropical
-semirings in all of the applications we study, so we will restrict the
-description to the more specific forward and Viterbi score.
-\\\midrule\\
-\end{tabular}
-\end{center}
+forward score corresponds to the log semiring and the Viterbi score
+corresponds to the tropical semiring. This is a more general perspective,
+and useful if you intend to use other semirings. However, we only need the
+log and tropical semirings in all of the applications we study, so we will
+restrict the description to the more specific forward and Viterbi score.
+\end{tcolorbox}
 
 Let's start with a couple of examples to show exactly what we are trying to
 compute, then we will go through a more general algorithm for forward and

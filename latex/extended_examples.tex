@@ -376,9 +376,8 @@ In terms of graph operations, we can write the ASG criterion as:
     p(\vy \mid \mX) = \LSE(\gA_\vy \circ \gE) - \LSE(\gE).
 \end{equation}
 
-%% TODO
-Aside: Global or Local Normalization
-
+\begin{tcolorbox}[breakable, colback=white!95!black, colframe=white!45!black,
+    sharp corners=all, title=Global or Local Normalization]
 The equation for the ASG criterion is \emph{globally normalized}. The term $Z$
 is the global normalization term and it ensure that the conditional probability
 $p(\vy \mid \mX)$ is a valid distribution; that is it sums to one over $\vy$.
@@ -483,8 +482,7 @@ Using the second idenity, the second term on the right becomes:
 \end{align*}
 
 Putting these two terms together yields the right hand side of what we wanted to show.
-
-%%% END ASIDE
+\end{tcolorbox}
 
 \subsubsection{Transitions}
 
