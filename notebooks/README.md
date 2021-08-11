@@ -13,6 +13,9 @@ constructing graphs:
 pip install gtn
 ```
 
+Then install [GraphViz](https://graphviz.org/download/), which is required for
+visualizing the graphs.
+
 From this directory (`notebooks/`), launch the Jupyter server:
 
 ```
