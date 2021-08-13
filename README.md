@@ -1,7 +1,7 @@
 ## automata_ml
 
 This repo contains source code for [An Introduction to Weighted Automata in
-Machine Learning](https://awnihannun.com/writing/machine_learning_automata/).
+Machine Learning](https://awnihannun.com/writing/automata_ml.html).
 
 The latex source is in [latex](latex/) and the Jupyter notebook source in [notebooks](notebooks/).
 
