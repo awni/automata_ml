@@ -11,7 +11,7 @@ figures/gen_figs.sh
 if [ -z $1 ]
 then
     files='acceptors_and_transducers basic_operations
-           advanced_operations differentiable_automata
+           advanced_operations differentiation_with_automata
            extended_examples'
 else
     files=$1
