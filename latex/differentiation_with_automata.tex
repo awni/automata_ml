@@ -27,7 +27,7 @@ differentiable. This means we can compute the change in any of the output
 elements with respect to an infinitesimal change in any of the input elements.
 For example, consider a vector $\vz = f(\vx, \vy)$ which is the output of a
 function of two vectors $\vx$ and $\vy$. The Jacobian of $\vz$ with respect to
-$\vx$ is the  natrix of partial derivatives with entries $\frac{\partial
+$\vx$ is the matrix of partial derivatives with entries $\frac{\partial
 \vz_i}{\partial \vx_j}$. The gradient is defined as the tensor of partial
 derivatives of a scalar function. So if $f(\vx) \in \mathbb{R}$ is a scalar
 function, then the gradient is:
@@ -198,10 +198,10 @@ Reverse-mode automatic differentiation proceeds in two steps. First, a forward
 pass computes all of the operations. Then, a backward pass computes the
 gradients. During the forward pass the composition of operations is stored in a
 computation graph (not to be confused with an automata). Data and metadata are
-also cached during the forward pass to make the gradient comptuation more
+also cached during the forward pass to make the gradient computation more
 efficient. There is often a trade-off between memory and compute in that we can
 save more intermediate data to reduce the computation required during but
-increase the memory required during the bakcward pass.
+increase the memory required during the backward pass.
 
 Consider the graph equation:
 

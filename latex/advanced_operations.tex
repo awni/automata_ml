@@ -32,12 +32,12 @@ the graph which recognizes $ab$.
         \includegraphics[scale=\dotscale]{figures/intersect_2}
     \end{subfigure}
     \caption{The acceptor on the left has a language of $a^*b$ and the acceptor
-    on the right accepts all nine sequences of lenght $2$. The only sequence
+    on the right accepts all nine sequences of length $2$. The only sequence
     accepted by both, and hence is in the intersection, is the string $ab$.}
     \label{fig:intersect_inputs}
 \end{figure}
 
-The general algortihm relies on a queue to explore pairs of states from the two
+The general algorithm relies on a queue to explore pairs of states from the two
 input graphs. Pseudocode is given in algorithm~\ref{alg:intersect}.
 
 \input{intersect_algorithm}
@@ -311,7 +311,7 @@ the only sequences accepted by both inputs.
 \subsection{Compose}
 
 The composition is a straightforward generalization of the intersection from
-acceptors to transducers. Assume the first inpuut graph transduces the sequence
+acceptors to transducers. Assume the first input graph transduces the sequence
 $\vx$ to the string $\vy$ and the second graph transduces $\vy$ to $\vz$. Then
 the composed graph transduces $\vx$ to $\vz$.
 
@@ -330,7 +330,7 @@ input graph. For example, assume we have two arcs, the first with label
 $x_1\!:\!x_2$, and the second with label $y_1\!:\!y_2$. If $x_2 = y_1$, then
 the arcs are considered a match. The new arc will have the label $x_1\!:\!y_2$.
 
-Think of matrix mutiplication as an analogy or mnemonic device. When
+Think of matrix multiplication as an analogy or mnemonic device. When
 multiplying two matrices they have to match on the inner dimension, and the
 dimensions of the output matrix are the outer dimensions. In the same way the
 inner labels of the two arcs must match and the resulting arc labels are the
@@ -497,7 +497,7 @@ only string in the intersection. However, the weight it assigns to the string
 $ab$ is incorrect. Each individual path has the correct weight, but there are
 three paths for $ab$. The final weight will receive three contributions, one
 from each path, instead of a single contribution from one path. The solution to
-this problem is to choose only one of the three paths and avoid the inadvertant
+this problem is to choose only one of the three paths and avoid the inadvertent
 redundancy. For example we could keep the bottom path and ignore the top two as
 in the graph in figure~\ref{fig:epsilon_intersect_both_correct}.
 
@@ -581,7 +581,7 @@ because the number of paths can grow combinatorially. Instead, we will use a
 much more efficient dynamic programming algorithm which works for both the
 forward and Viterbi score.
 
-The dynamic programming algorithm relies on the following recurions. Consider a
+The dynamic programming algorithm relies on the following recursions. Consider a
 state $v$ and let $e_i$ for $i=1, \ldots, k$ be the set of arcs for which $v$
 is the destination node. For a given arc $e$ we let $\textrm{source}(e)$ denote
 the source node for that arc. The score of all paths which start at a start
