@@ -19,7 +19,7 @@ where $.*$ indicates zero of more occurrences of any token in the token set.
 
 Suppose we want to count the number of occurrences of the bigram $aa$ in
 $aaabaa$. For the bigram $aa$, and the token set $\{a, b, c\}$, the $n$-gram
-matching graph is shown in figure~\ref{fig:bigram_aa}. The first and last state
+matching graph is shown in Figure~\ref{fig:bigram_aa}. The first and last state
 allow self-loops on any token in the token set. These states correspond to the
 $.*$ at the beginning and end of the expression $.*\vy.*$.
 
@@ -31,7 +31,7 @@ $.*$ at the beginning and end of the expression $.*\vy.*$.
 \end{figure}
 
 We can encode the string $aaabaa$ with a simple linear graph, as in
-figure~\ref{fig:ngram_string}.
+Figure~\ref{fig:ngram_string}.
 
 \begin{figure}
     \centering
@@ -43,7 +43,7 @@ figure~\ref{fig:ngram_string}.
 
 We then compute the intersection of the graph representing the string and the
 graph representing the bigram. The intersected graph is in
-figure~\ref{fig:bigram_paths}. The number of paths in this graph represents the
+Figure~\ref{fig:bigram_paths}. The number of paths in this graph represents the
 number of occurrences of the bigram in the string.
 
 \begin{figure}
@@ -89,7 +89,7 @@ according to the allowed operations encoded as a graph.
 
 We first construct an edits graph $\gE$ which encodes the allowed operations.
 An example of an edits graph assuming a token set of $\{a, b\}$ is shown in
-figure~\ref{fig:edits}. The insertion of a token is represented by the arcs
+Figure~\ref{fig:edits}. The insertion of a token is represented by the arcs
 from state $0$ to state $1$ and has a cost of $1$. The deletion of a token is
 represented by the arcs from state $0$ to state $2$ which also incur a cost of
 $1$. All possible substitutions are encoded in the arcs from $0$ to $3$ and
@@ -133,7 +133,7 @@ which attain the edit distance.
 \begin{proof}
 Using an equivalent but more compact representation of the edit distance graph
 $\gE^*$ yields the graph $\gP = \gX \circ \gE^* \circ \gY$, shown in
-figure~\ref{fig:edit_paths}. Each path in $\gP$ represents a unique conversion
+Figure~\ref{fig:edit_paths}. Each path in $\gP$ represents a unique conversion
 of $\gX$ into $\gY$ using insertion, deletion, and substitution operations. The
 negation of the score of the path is the number of such operations required.
 
@@ -164,7 +164,7 @@ using an insertion at the second letter and a substitution at the end:
 
 The Viterbi score and Viterbi path yield the edit distance between $\vx$ and
 $\vy$ and the sequence of edit operations required to attain the edit distance.
-The Viterbi path for the example is shown in figure~\ref{fig:edit_path}.
+The Viterbi path for the example is shown in Figure~\ref{fig:edit_path}.
 
 \begin{figure}
     \centering
@@ -189,7 +189,7 @@ c\}$ and we want to construct a unigram language model. Given counts of
 occurrences for each token in the vocabulary, we can construct an acceptor to
 represent the unigram language model. Suppose we are given the probabilities
 $0.5$, $0.2$, and $0.3$ for $a$, $b$, and $c$ respectively. The corresponding
-unigram graph is shown in figure~\ref{fig:unigram}. Note that the edge weights
+unigram graph is shown in Figure~\ref{fig:unigram}. Note that the edge weights
 are log probabilities.
 
 \begin{figure}
@@ -207,7 +207,7 @@ then computing the forward score:
 $$
 \log p(aa) = \LSE (\gX \circ \gU)
 $$
-The graph in figure~\ref{fig:unigram_aa_scored} shows the intersection $\gX
+The graph in Figure~\ref{fig:unigram_aa_scored} shows the intersection $\gX
 \circ \gU$. The arc edges in the intersected graph contain the correct unigram
 scores, and the forward score gives the log probability of the sequence $aa$.
 In this case, the Viterbi score would give the same result since the graph has
@@ -231,7 +231,7 @@ $$
 Next, let's see how to represent a bigram language model as a graph. From
 there, the generalization to arbitrary order $n$ is relatively straightforward.
 Assume again we have the token set $\{a, b, c\}$. The bigram model is shown in
-the graph in figure~\ref{fig:bigram}. Each state is labeled with the token
+the graph in Figure~\ref{fig:bigram}. Each state is labeled with the token
 representing the most recently seen input.  For a bigram model we only need to
 remember the previous token to know which score to use when processing the next
 token. For a trigram model we would need to remember the previous two tokens.
@@ -323,7 +323,7 @@ Let's start with the normalization term $Z$. The set $\gZ_\mX$ encodes all
 possible outputs of length $T$, where $T$ is the length of $\mX$. As an
 example, assume $T=4$ and we have three possible output tokens $\{a, b, c\}$.
 If the scores for each output are independent, we can represent $\gZ_\mX$ with
-the graph in figure~\ref{fig:asg_emissions}. The scores on the arcs are given
+the graph in Figure~\ref{fig:asg_emissions}. The scores on the arcs are given
 by the model $s_t(\cdot)$.  These scores are often called the \emph{emissions},
 and the graph itself is sometimes called the emissions graph. I'll use $\gE$ to
 represent the emissions graph. In this case the emissions graph $\gE$ is the
@@ -344,7 +344,7 @@ acceptor. This acceptor should have a path for every possible alignment between
 $\mX$ and $\vy$. We'll construct $\gA_{\mX, \vy}$ in two steps. First, we can
 encode the set of allowed alignments of arbitrary length for a given sequence
 $\vy$ with a graph, $\gA_\vy$. As an example, the graph $\gA_\vy$ for the
-sequence $ab$ is shown in figure~\ref{fig:asg_alignments}.
+sequence $ab$ is shown in Figure~\ref{fig:asg_alignments}.
 
 \begin{figure}
     \centering
@@ -355,12 +355,12 @@ sequence $ab$ is shown in figure~\ref{fig:asg_alignments}.
     \label{fig:asg_alignments}
 \end{figure}
 
-The graph in figure~\ref{fig:asg_alignments} has a simple interpretation. Each
+The graph in Figure~\ref{fig:asg_alignments} has a simple interpretation. Each
 token in the output $ab$ can repeat one or more times in the alignment. We can
 then construct $\gA_{\mX,\vy}$ by intersecting $\gA_\vy$ with the emissions
 graph $\gE$, which represents all possible sequences of length $T$. This gives
 $\gA_{\mX,\vy} = \gA_\vy \circ \gE$. An example of $\gA_{\mX, \vy}$ is shown in
-figure~\ref{fig:asg_constrained} for the sequence $ab$ with $T=4$.
+Figure~\ref{fig:asg_constrained} for the sequence $ab$ with $T=4$.
 
 \begin{figure}
     \centering
@@ -484,7 +484,7 @@ Let's see how to incorporate transitions using an acceptor and graph
 operations. I'll rely on the ideas introduced in section~\ref{sec:ngram_model}
 on $n$-gram language models, so now is a good time to review that section. The
 first step is to encode the bigram model as a graph, as in
-figure~\ref{fig:asg_bigrams}.
+Figure~\ref{fig:asg_bigrams}.
 
 \begin{figure}
     \centering
@@ -523,7 +523,7 @@ differentiation.
 
 An example implementation of the ASG loss function in the GTN
 framework~\footnote{The GTN framework is open source and available at
-\url{https://github.com/gtn-org/gtn}} is shown in figure~\ref{fig:asg_gtn}.
+\url{https://github.com/gtn-org/gtn}} is shown in Figure~\ref{fig:asg_gtn}.
 This function takes as input an emissions graph $\gE$, a transitions graph
 $\gB$, and an output alignment graph $\gA_\vy$ is shown below. I would like to
 make three observations about this code:
@@ -554,7 +554,7 @@ the target sequence $\vy$.
 
 The target sequence graph $\gY$ is a simple linear-chain graph with arc labels
 taken consecutively from the sequence $\vy$. The graph in
-figure~\ref{fig:asg_target_ab} shows an example for the sequence $ab$.
+Figure~\ref{fig:asg_target_ab} shows an example for the sequence $ab$.
 
 \begin{figure}
     \centering
@@ -567,7 +567,7 @@ Next we construct the individual token graphs. These graphs encode the
 assumption that each token in an output maps to one or more repeats of the same
 token in an alignment. For example for the output $\vy = ab$ and alignment $\va
 = aaaabb$ the token $a$ maps to $aaaa$ and $b$ maps to  $bb$. For the token
-$a$, the token graph $\gT_a$ shown in figure~\ref{fig:asg_tokens_a} has the
+$a$, the token graph $\gT_a$ shown in Figure~\ref{fig:asg_tokens_a} has the
 desired property.
 
 \begin{figure}
@@ -584,7 +584,7 @@ set, we construct the complete token graph $\gT$ by taking the union of the
 individual token graphs and computing the closure. If we have a token set $\{a,
 b, c\}$, then we construct individual token graphs $\gT_a$, $\gT_b$, and
 $\gT_c$. The complete token graph $\gT$ is given by $\gT = (\gT_a + \gT_b +
-\gT_c)^*$. The complete token graph is shown in figure~\ref{fig:asg_tokens}.
+\gT_c)^*$. The complete token graph is shown in Figure~\ref{fig:asg_tokens}.
 
 \begin{figure}
     \centering
@@ -676,7 +676,7 @@ $$
 $$
 where the distinction from ASG is in the graph $\gA_\vy$. An example alignment
 graph $\gA_\vy$ for CTC for the sequence $ab$ is shown in
-figure~\ref{fig:ctc_alignments}.
+Figure~\ref{fig:ctc_alignments}.
 
 \begin{figure}
     \centering
@@ -708,7 +708,7 @@ Construct the CTC $\gA_\vy$ graph for the sequence $aa$.
 \end{figure}
 
 The graph $\gA_\vy$ for the sequence $\vy = aa$ is shown in
-figure~\ref{fig:ctc_alignments_aa}. Notice the $\blank$ token in between the
+Figure~\ref{fig:ctc_alignments_aa}. Notice the $\blank$ token in between the
 first and second $a$ is not optional. The only difference between the graph
 for $aa$ and the graph for $ab$ is the removal of the arc between states
 $1$ and $3$.

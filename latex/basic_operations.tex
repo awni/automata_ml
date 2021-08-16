@@ -21,7 +21,7 @@ empty string. Usually the closure of an acceptor is denoted by $^*$, as in
 $\gA^*$. This is the same notation used in regular expressions.
 
 The closure of a graph is easy to construct with the use of $\epsilon$
-transitions. The language of the graph in figure~\ref{fig:fsa_pre_closure} is
+transitions. The language of the graph in Figure~\ref{fig:fsa_pre_closure} is
 the string $aba$.
 
 \begin{figure}
@@ -37,8 +37,8 @@ including the empty string. To accept the empty string we make the start state
 an accept state as well. To accept one or more copies of $aba$ we simply wire
 up the old accept states to the new start state with $\epsilon$ transitions.
 
-The closure of the graph in figure~\ref{fig:fsa_pre_closure} is shown in
-figure~\ref{fig:fsa_closure}.
+The closure of the graph in Figure~\ref{fig:fsa_pre_closure} is shown in
+Figure~\ref{fig:fsa_closure}.
 
 \begin{figure}
     \centering
@@ -54,7 +54,7 @@ You might notice that the state $4$ in the above graph is not necessary.
 Consider an alternate construction for computing the closure of a graph. We
 could have made the state $0$ into an accept state and connected state $3$
 to state $0$ with an $\epsilon$ transition, as in the graph in
-figure~\ref{fig:fsa_closure_2}.
+Figure~\ref{fig:fsa_closure_2}.
 
 \begin{figure}
     \centering
@@ -66,7 +66,7 @@ figure~\ref{fig:fsa_closure_2}.
     \label{fig:fsa_closure_2}
 \end{figure}
 
-For the graph in figure~\ref{fig:fsa_pre_closure}, this alternate construction
+For the graph in Figure~\ref{fig:fsa_pre_closure}, this alternate construction
 works and requires fewer states and arcs. In the general case, this
 construction turns every start state into an accept state instead of adding
 a new start state. Give an example where this doesn't work? In other words,
@@ -88,7 +88,7 @@ by a $b$) and the closure is $(a^nb)^*$, or any sequence that ends with $b$.
 \end{figure}
 
 If we follow the modified construction for the closure, as in the graph in
-figure~\ref{fig:fsa_closure_wrong}, then the language would incorrectly
+Figure~\ref{fig:fsa_closure_wrong}, then the language would incorrectly
 include sequences that do not end with $b$ such as $a^*$. The graph
 following the correct construction of the closure is in
 figure~\ref{fig:fsa_closure_right}.
@@ -97,7 +97,7 @@ figure~\ref{fig:fsa_closure_right}.
     \centering
     \includegraphics[scale=\dotscale]{figures/fsa_closure_wrong}
     \caption{The alternate construction which incorrectly computes the closure
-    of the graph in figure~\ref{fig:fsa_pre_closure_wrong}.}
+    of the graph in Figure~\ref{fig:fsa_pre_closure_wrong}.}
     \label{fig:fsa_closure_wrong}
 \end{figure}
 
@@ -127,7 +127,7 @@ union is  easy to construct. A state in the union graph is a start state if it
 was a start state in one of the original graphs. A state in the union graph is
 an accept state if it was an accept state in one of the original graphs.
 
-Consider the three graphs in figure~\ref{fig:union_inputs} with languages
+Consider the three graphs in Figure~\ref{fig:union_inputs} with languages
 $\{ab, aba, abaa, \ldots\}$, $\{ba\}$, and $\{ac\}$ respectively.
 
 \begin{figure}
@@ -154,7 +154,7 @@ $\{ab, aba, abaa, \ldots\}$, $\{ba\}$, and $\{ac\}$ respectively.
     \label{fig:union_inputs}
 \end{figure}
 
-Notice in the union graph in figure~\ref{fig:union} the only visual distinction
+Notice in the union graph in Figure~\ref{fig:union} the only visual distinction
 from the individual graphs is that the states are numbered consecutively from
 $0$ to $8$ indicating a single graph with nine states instead of three
 individual graphs. The language of the union graph is $\{ab, aba, abaa,
@@ -202,8 +202,8 @@ state of $\gA_{i+1}$ with an $\epsilon$ transition.
     \label{fig:concat_inputs}
 \end{figure}
 
-As an example, consider the two graphs in figure~\ref{fig:concat_inputs}. The
-concatenated graph is in figure~\ref{fig:concat} and has the language $\{baac,
+As an example, consider the two graphs in Figure~\ref{fig:concat_inputs}. The
+concatenated graph is in Figure~\ref{fig:concat} and has the language $\{baac,
 babc\}$.
 
 \begin{figure}
@@ -229,7 +229,7 @@ annihilator since $c *0 = 0$ for any real value $c$.
 \begin{proof}[\unskip\nopunct]
 The graph which accepts the empty string is the identity. The graph which does
 not accept any strings is the annihilator. See the
-figure~\ref{fig:concat_identity_annihilator} for an example of these two
+Figure~\ref{fig:concat_identity_annihilator} for an example of these two
 graphs.
 
 \begin{figure}
@@ -263,7 +263,7 @@ $\varnothing$).
 
 \begin{example}
 Construct the concatenation of the two graphs in
-figure~\ref{fig:concat_example_inputs}.
+Figure~\ref{fig:concat_example_inputs}.
 \end{example}
 
 \begin{proof}[\unskip\nopunct]
@@ -283,7 +283,7 @@ figure~\ref{fig:concat_example_inputs}.
     \label{fig:concat_example_inputs}
 \end{figure}
 
-The concatenated graph is in figure~\ref{fig:concat_example}.
+The concatenated graph is in Figure~\ref{fig:concat_example}.
 
 \begin{figure}
     \centering
@@ -334,7 +334,7 @@ We've seen three basic operations so far:
 \begin{example}
 Assume you are given the following individual graphs $\gA_a$, $\gA_b$, and
 $\gA_c$, which recognize $a$, $b$, and $c$ respectively, as in
-figure~\ref{fig:fsa_tokens}. Using only the closure, union, and
+Figure~\ref{fig:fsa_tokens}. Using only the closure, union, and
 concatenation operations, construct the graph which recognizes any number
 of repeats of the strings $aa$, $bb$, and $cc$. For example $aabb$ and
 $bbaacc$ are in the language but $b$ and $ccaab$ are not.
@@ -364,7 +364,7 @@ $bbaacc$ are in the language but $b$ and $ccaab$ are not.
 First concatenate the individual graphs with themselves to get graphs which
 recognize $aa$, $bb$, and $cc$. Then take the union of the three
 concatenated graphs followed by the closure. The resulting graph is shown
-in figure~\ref{fig:fsa_repeats}. If we represent the individual automata as
+in Figure~\ref{fig:fsa_repeats}. If we represent the individual automata as
 , then the equation to compute the desired graph is $\gA = (\gA_a\gA_a +
 \gA_b\gA_b + \gA_c\gA_c)^*$.
 

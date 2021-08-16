@@ -41,7 +41,7 @@ In the same way, we can compute partial derivatives of the arc weights of an
 output graph for a given operation with respect to the arc weights of any of
 the input graphs. Take the concatenation operation as an example. Suppose we
 are given two graphs, $\gA$ and $\gB$, and we construct the concatenated graph
-$\gC = \gA \gB$ as in figure~\ref{fig:concat_grad}.
+$\gC = \gA \gB$ as in Figure~\ref{fig:concat_grad}.
 
 \begin{figure}
     \centering
@@ -69,7 +69,7 @@ $\gB$. For any arc in $\gC$, it either has a corresponding arc in $\gA$ or
 $\gB$ from which it gets its weight, or it has a weight of zero. The partial
 derivative of an output arc weight $C_i$ with respect to an input arc weight
 $A_j$ or $B_j$ is $1$ if the two arcs correspond and $0$ otherwise. For
-example, in the graphs in figure~\ref{fig:concat_grad} we have:
+example, in the graphs in Figure~\ref{fig:concat_grad} we have:
 
 $$
 \frac{\partial C_1}{\partial A_1} = 1,
@@ -98,8 +98,8 @@ vector-valued function either as a set of columns or a set of rows.
 
 \begin{example}
 Compute the partial derivatives of the arc weights of the closure of the graph
-$\gA$ from figure~\ref{fig:concat_grad} with respect to the input arc
-weights. The closure, $\gA^*$, is in figure~\ref{fig:closure_grad}.
+$\gA$ from Figure~\ref{fig:concat_grad} with respect to the input arc
+weights. The closure, $\gA^*$, is in Figure~\ref{fig:closure_grad}.
 \end{example}
 
 \begin{proof}[\unskip\nopunct]
@@ -107,7 +107,7 @@ weights. The closure, $\gA^*$, is in figure~\ref{fig:closure_grad}.
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/closure_grad}
-    \caption{The closure of the graph $\gA$ from figure~\ref{fig:concat_grad}.
+    \caption{The closure of the graph $\gA$ from Figure~\ref{fig:concat_grad}.
     The weights are denoted by the variables $w_i$.}
     \label{fig:closure_grad}
 \end{figure}
@@ -133,7 +133,7 @@ $$
 \begin{example}
 Compute the partial derivatives of the intersected automata weights $w_i$ with
 respect to the input arc weights $A_j$ for graph $\gA$ and $B_k$ for graph
-$\gB$ shown in figure~\ref{fig:intersect_grad_inputs}.
+$\gB$ shown in Figure~\ref{fig:intersect_grad_inputs}.
 \end{example}
 
 \begin{figure}
@@ -157,7 +157,7 @@ $\gB$ shown in figure~\ref{fig:intersect_grad_inputs}.
     \centering
     \includegraphics[scale=\dotscale]{figures/intersect_grad}
     \caption{The intersected graph of the two acceptors $\gA$ and $\gB$ in
-    figure~\ref{fig:intersect_grad_inputs}.  The weights are denoted as
+    Figure~\ref{fig:intersect_grad_inputs}.  The weights are denoted as
     variables $w_i$ on the edges.}
     \label{fig:intersect_grad}
 \end{figure}
@@ -211,7 +211,7 @@ Consider the graph equation:
 \end{equation}
 
 This equation can be represented in the computation graph in
-figure~\ref{fig:compute_graph}.
+Figure~\ref{fig:compute_graph}.
 
 \begin{figure}
     \centering
@@ -231,7 +231,7 @@ input data. The square nodes are operations, and they are always followed by
 output graphs, which are dashed circular nodes.
 
 During the backward pass, the gradients are computed from the output ($\gG_4$
-in figure~\ref{fig:compute_graph}) following the arrows in the computation
+in Figure~\ref{fig:compute_graph}) following the arrows in the computation
 graph backwards. A graph can only compute its gradient once all of the graphs
 downstream of it have had their gradients computed. Thus the backward pass must
 be done as a reverse topological traversal of the computation graph.
@@ -263,7 +263,7 @@ For example, after the execution of union, the data structure which holds the
 output graph $\gG_1$ could also hold pointers to the inputs $\gA_1$ and $\gA_2$
 and a pointer to the gradient computation function for union. A simplified
 example of what this data structure might look like is shown in
-figure~\ref{fig:grad_data}.
+Figure~\ref{fig:grad_data}.
 
 \begin{figure}
     \centering

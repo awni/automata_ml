@@ -31,7 +31,7 @@ graph terminology that I will use throughout. In the following graph a
 connections between two states. We usually refer to these as \emph{arcs} but
 sometimes also \emph{edges}. The graph is directed since the connections
 between states are unidirectional arrows. The arcs in a graph can have labels.
-In figure~\ref{fig:simple_automata} the arc between states $0$ and $1$ has a
+In Figure~\ref{fig:simple_automata} the arc between states $0$ and $1$ has a
 label of $a$. Similarly, the arc between states $1$ and $2$ has a label of $b$.
 The graph is an example of a finite-state automata (FSA) or finite-state
 machine (FSM), so called because it has a finite number of nodes.
@@ -46,8 +46,8 @@ machine (FSM), so called because it has a finite number of nodes.
 An automata is deterministic if for each state and label pair there is only one
 outgoing transition which matches that label. An automata is nondeterministic
 if multiple transitions leaving a state have the same label. The graphs in
-figure~\ref{fig:dfa_nfa} show an example of a deterministic and a
-nondeterministic automata. In general, acceptors and transducers to can be
+Figure~\ref{fig:dfa_nfa} show an example of a deterministic and a
+nondeterministic automata. In general, acceptors and transducers can be
 nondeterministic.
 
 \begin{figure}
@@ -111,7 +111,7 @@ $0 + 2 = 2$. Another option would be to multiply the weights. These two options
 correspond to interpreting the weights as either log probabilities or
 probabilities. We'll have more to say about this later.
 
-The graph in figure~\ref{fig:multi_path} accepts the same sequence by multiple
+The graph in Figure~\ref{fig:multi_path} accepts the same sequence by multiple
 paths.
 
 \begin{figure}
@@ -137,7 +137,7 @@ $$
 $$
 
 Acceptors can have multiple start states and multiple accept states. In the
-graph in figure~\ref{fig:multi_start_accept}, the states $0$ and $1$ are both
+graph in Figure~\ref{fig:multi_start_accept}, the states $0$ and $1$ are both
 start states, and the states $3$ and $4$ are both accept states.
 
 \begin{figure}
@@ -158,7 +158,7 @@ Note also that start states can have incoming arcs (as in state $1$) and accept
 states can have outgoing arcs, as in state $3$.
 
 \begin{example}
-Compute the score of the string $ab$ in figure 1.
+Compute the score of the string $ab$ in Figure~\ref{fig:multi_start_accept}.
 \end{example}
 
 \begin{proof}[\unskip\nopunct]
@@ -171,7 +171,7 @@ $$
 \end{proof}
 
 Graphs can also have self-loops and cycles. For example, the graph in
-figure~\ref{fig:fsa_loops} has a self-loop on the state $0$ and a cycle
+Figure~\ref{fig:fsa_loops} has a self-loop on the state $0$ and a cycle
 following the state sequence $0 \rightarrow 1 \rightarrow 2 \rightarrow 0$.
 
 \begin{figure}
@@ -189,7 +189,7 @@ where the $^*$ denotes zero or more $a$s.
 
 The $\epsilon$ symbols has a special meaning when it is the label on an arc.
 Any arc with an $\epsilon$ label can be traversed without consuming an input
-token in the string. So the graph in figure~\ref{fig:fsa_epsilon} accepts the
+token in the string. So the graph in Figure~\ref{fig:fsa_epsilon} accepts the
 string $ab$, but it also accepts the string $b$ because we can traverse from
 state $0$ to state $1$ without consuming an input.
 
@@ -207,13 +207,13 @@ a large cost in the size of the graph. Complex languages can be represented by
 much more compact graphs with the use of $\epsilon$-transitions.
 
 \begin{example}
-Convert the graph in figure~\ref{fig:multi_start_accept} which has multiple
+Convert the graph in Figure~\ref{fig:multi_start_accept} which has multiple
 start and accept states to an equivalent graph with only a single start and
 accept state using $\epsilon$ transitions.
 \end{example}
 
 \begin{proof}[\unskip\nopunct]
-The graph in figure~\ref{fig:epsilon_start_accept} is the equivalent graph
+The graph in Figure~\ref{fig:epsilon_start_accept} is the equivalent graph
 with a single start state and a single accept state.
 
 \begin{figure}
@@ -256,7 +256,7 @@ on every arc are identical.
 
 Instead of saying that a transducer accepts a given string, we say that it
 \emph{transduces} one string to another. The graph in
-figure~\ref{fig:simple_fst} transduces the string $ab$ to the string $xz$ and
+Figure~\ref{fig:simple_fst} transduces the string $ab$ to the string $xz$ and
 the string $bb$ to the string $yz$. The weights of a transduced pair is
 computed in the same way as in an acceptor. The scores of the individual arcs
 on the path are summed. The path scores are combined with \emph{log-sum-exp}.
@@ -273,7 +273,7 @@ transduces $\vx$ to $\vy$.
 
 \begin{example}
 Compute the score of the transduced pair $(aab, zyy)$ in the graph in
-figure~\ref{fig:fst_example_score}.
+Figure~\ref{fig:fst_example_score}.
 \end{example}
 
 \begin{proof}[\unskip\nopunct]
@@ -312,7 +312,7 @@ an input or producing an output.
     \label{fig:fst_epsilon}
 \end{figure}
 
-In the graph in figure~\ref{fig:fst_epsilon}, the string $b$ gets transduced to
+In the graph in Figure~\ref{fig:fst_epsilon}, the string $b$ gets transduced to
 the string $x$. On the first arc between states $0$ and $1$, we output an $x$
 without consuming any token. On the second arc between states $1$ and $2$, a
 $b$ is consumed without outputting any new token. Finally, on the arc between
