@@ -591,7 +591,7 @@ $\gT_c$. The complete token graph $\gT$ is given by $\gT = (\gT_a + \gT_b +
     \includegraphics[scale=\dotscale]{figures/asg_tokens}
     \caption{The complete token graph $\gT$ for the token set $\{a, b, c\}$.
     The token graph is constructed by taking the closure of the union of the
-    individual token graphs, $\gT = \gT_a + \gT_b + \gT_c$.}
+    individual token graphs, $\gT = (\gT_a + \gT_b + \gT_c)^*$.}
     \label{fig:asg_tokens}
 \end{figure}
 
@@ -635,7 +635,7 @@ $abbbaa$. There are several heuristics to resolve this. One option is to use
 special tokens for repeat characters. For example if $\vy = abba$, then we
 could encode it as $ab_2a$, where $b_2$ corresponds to two $b$'s.In this case,
 the alignment $abbba$ corresponds to the output $aba$,the alignment
-$ab_2b_2b_2a$ corresponds to the output $abba$, and the alignment $abbb_2$
+$ab_2b_2b_2a$ corresponds to the output $abba$, and the alignment $abbb_2a$
 corresponds to $abbba$.
 
 There are two problems with this solution. First, we have to hard code into the
