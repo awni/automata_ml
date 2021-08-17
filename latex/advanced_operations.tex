@@ -9,7 +9,7 @@ score of the path in each of the input graphs. More formally the language of
 the intersected graph is given by $\{ \vx \mid \vx \in \L(\gA_1) \;\land\; \vx
 \in \L(\gA_2)\}$.
 
-The analagous operation for transducers is the composition, which we will
+The analogous operation for transducers is the composition, which we will
 discuss in more detail in the next section. In most machine learning
 applications, intersect and compose tend to be the primary operations used to
 compute more complex graphs from simpler input graphs. Thus gaining a deeper
@@ -32,12 +32,12 @@ the graph which recognizes $ab$.
         \includegraphics[scale=\dotscale]{figures/intersect_2}
     \end{subfigure}
     \caption{The acceptor on the left has a language of $a^*b$ and the acceptor
-    on the right accepts all nine sequences of lenght $2$. The only sequence
+    on the right accepts all nine sequences of length $2$. The only sequence
     accepted by both, and hence is in the intersection, is the string $ab$.}
     \label{fig:intersect_inputs}
 \end{figure}
 
-The general algortihm relies on a queue to explore pairs of states from the two
+The general algorithm relies on a queue to explore pairs of states from the two
 input graphs. Pseudocode is given in algorithm~\ref{alg:intersect}.
 
 \input{intersect_algorithm}
@@ -160,7 +160,7 @@ is constructed over the steps of the algorithm.
         \end{minipage}
         \caption{The next pair of matching outgoing arcs match on the label $b$
         and lead to the state pair $(1, 2)$. We add $(1, 2)$ to the queue and
-        to the interescted graph. Also, since $1$ is an accept state in the
+        to the intersected graph. Also, since $1$ is an accept state in the
         first graph and $2$ is an accept state in the second graph, $(1, 2)$ is
         an accept state in the intersected graph.}
     \end{subfigure}
@@ -330,7 +330,7 @@ input graph. For example, assume we have two arcs, the first with label
 $x_1\!:\!x_2$, and the second with label $y_1\!:\!y_2$. If $x_2 = y_1$, then
 the arcs are considered a match. The new arc will have the label $x_1\!:\!y_2$.
 
-Think of matrix mutiplication as an analogy or mnemonic device. When
+Think of matrix multiplication as an analogy or mnemonic device. When
 multiplying two matrices they have to match on the inner dimension, and the
 dimensions of the output matrix are the outer dimensions. In the same way the
 inner labels of the two arcs must match and the resulting arc labels are the
@@ -385,7 +385,7 @@ First, consider the simpler case when only the first input graphs has
 $\epsilon$ transitions. In this case, whenever we encounter an outgoing
 $\epsilon$ transition from a state in the first graph we can optionally
 traverse it without matching a corresponding arc in the second graph. Consider
-the subgraphs in figure~\ref{fig:epsilon_intersect}.
+the sub-graphs in figure~\ref{fig:epsilon_intersect}.
 
 \begin{figure}
     \centering
@@ -497,7 +497,7 @@ only string in the intersection. However, the weight it assigns to the string
 $ab$ is incorrect. Each individual path has the correct weight, but there are
 three paths for $ab$. The final weight will receive three contributions, one
 from each path, instead of a single contribution from one path. The solution to
-this problem is to choose only one of the three paths and avoid the inadvertant
+this problem is to choose only one of the three paths and avoid the inadvertent
 redundancy. For example we could keep the bottom path and ignore the top two as
 in the graph in figure~\ref{fig:epsilon_intersect_both_correct}.
 
@@ -669,8 +669,8 @@ paths and arcs.
 A Viterbi path is a path for which the Viterbi score is attained. We can
 compute one of the Viterbi paths with a straightforward extension of the
 Viterbi scoring algorithm. At each state when we compute the score, we also
-maintain a backpointer to the arc which resulted in the maximum score. When the
-algorithm terminates, we can trace the backpointers to the start state and
+maintain a back-pointer to the arc which resulted in the maximum score. When the
+algorithm terminates, we can trace the back-pointers to the start state and
 extract the Viterbi path.
 
 An example of this can be seen in the graph in
