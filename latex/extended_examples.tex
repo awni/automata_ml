@@ -417,7 +417,7 @@ We can prove that the locally normalized version of the transition-free ASG loss
 \label{eq:local_global}
 \LSE_{\va \in \gA_{\mX, \vy}} \log p(\va) = \LSE_{\va \in \gA_{\mX, \vy}} s(\va) - \log Z
 \end{equation}
-To show this, we need two identities. The first identity let's us pull
+To show this, we need two identities. The first identity lets us pull
 independent terms out of the $\LSE$ operation:
 $$
 \LSE_x(x + y) = \LSE(x) + y.
@@ -426,7 +426,7 @@ The proof of this identity is below:
 $$
 \LSE_x (x + y) = \log \sum_x e^{x+y} = \log \sum_x e^x e^y = \log \sum_x e^x + \log e^y = \LSE(x) + y.
 $$
-The second identity let's us rearrange products and sums:
+The second identity lets us rearrange products and sums:
 $$
 \prod_{t=1}^T \sum_{z} s_t(z) = \sum_\vz \prod_{t=1}^t s_t(z_t).
 $$
@@ -591,7 +591,7 @@ $\gT_c$. The complete token graph $\gT$ is given by $\gT = (\gT_a + \gT_b +
     \includegraphics[scale=\dotscale]{figures/asg_tokens}
     \caption{The complete token graph $\gT$ for the token set $\{a, b, c\}$.
     The token graph is constructed by taking the closure of the union of the
-    individual token graphs, $\gT = \gT_a + \gT_b + \gT_c$.}
+    individual token graphs, $\gT = (\gT_a + \gT_b + \gT_c)^*$.}
     \label{fig:asg_tokens}
 \end{figure}
 
@@ -633,9 +633,9 @@ map to multiple output sequences. For example, consider the alignment $abbbaa$.
 This can map to any of the outputs $aba$, $abba$, $abbba$, $abaa$, $abbaa$, or
 $abbbaa$. There are several heuristics to resolve this. One option is to use
 special tokens for repeat characters. For example if $\vy = abba$, then we
-could encode it as $ab_2a$, where $b_2$ corresponds to two $b$'s.In this case,
-the alignment $abbba$ corresponds to the output $aba$,the alignment
-$ab_2b_2b_2a$ corresponds to the output $abba$, and the alignment $abbb_2$
+could encode it as $ab_2a$, where $b_2$ corresponds to two $b$'s. In this case,
+the alignment $abbba$ corresponds to the output $aba$, the alignment
+$ab_2b_2b_2a$ corresponds to the output $abba$, and the alignment $abbb_2a$
 corresponds to $abbba$.
 
 There are two problems with this solution. First, we have to hard code into the

@@ -25,6 +25,11 @@ jupyter notebook
 This should open a browser window from which you can execute all of the
 notebooks.
 
+A [zip archive](https://awnihannun.com/writing/automata_ml/notebooks.zip) is
+available with all the notebooks and figures pre-built. Alternatively the
+figures can be constructed by executing `bash figures/gen_figs.sh` from root of
+the repository. The remainder will be constructed as the notebook is executed.
+
 ## Exporting as HTML
 
 For proper style when exporting HTML, put `custom.css` in `.jupyter/custom/`.

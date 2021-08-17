@@ -311,7 +311,7 @@ the only sequences accepted by both inputs.
 \subsection{Compose}
 
 The composition is a straightforward generalization of the intersection from
-acceptors to transducers. Assume the first inpuut graph transduces the sequence
+acceptors to transducers. Assume the first input graph transduces the sequence
 $\vx$ to the string $\vy$ and the second graph transduces $\vy$ to $\vz$. Then
 the composed graph transduces $\vx$ to $\vz$.
 
@@ -581,7 +581,7 @@ because the number of paths can grow combinatorially. Instead, we will use a
 much more efficient dynamic programming algorithm which works for both the
 forward and Viterbi score.
 
-The dynamic programming algorithm relies on the following recurions. Consider a
+The dynamic programming algorithm relies on the following recursions. Consider a
 state $v$ and let $e_i$ for $i=1, \ldots, k$ be the set of arcs for which $v$
 is the destination node. For a given arc $e$ we let $\textrm{source}(e)$ denote
 the source node for that arc. The score of all paths which start at a start
@@ -679,7 +679,7 @@ figure~\ref{fig:viterbi_path_back}.
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/viterbi_path_back}
-    \caption{Each state is labeled with the state label and viterbi score from
+    \caption{Each state is labeled with the state label and Viterbi score from
     the start state up to that state. The red arrows indicate the arc which is
     part of the Viterbi path up to the given state. The complete Viterbi path
     can be found by following red arcs back from the accept state.}

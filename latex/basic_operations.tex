@@ -27,8 +27,8 @@ the string $aba$.
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/fsa_pre_closure}
-    \caption{An example of a simple acceptor with language $\{ab\}$, in other
-    words $\L(\gA) = \{ab\}$.}
+    \caption{An example of a simple acceptor with language $\{aba\}$, in other
+    words $\L(\gA) = \{aba\}$.}
     \label{fig:fsa_pre_closure}
 \end{figure}
 
@@ -45,7 +45,7 @@ figure~\ref{fig:fsa_closure}.
     \includegraphics[scale=\dotscale]{figures/fsa_closure}
     \caption{The closure $\gA^*$ of the graph in
     figure~\ref{fig:fsa_pre_closure}. The language of the graph is $\{\epsilon,
-    ab, abab, \ldots\}$.}
+    aba, abaaba, \ldots\}$.}
     \label{fig:fsa_closure}
 \end{figure}
 
@@ -180,12 +180,13 @@ will denote concatenation by placing the graphs side-by-side. So $\gA_1 \gA_2$
 represents the concatenation of $\gA_1$ and $\gA_2$.
 
 The concatenated graph can be constructed from the original input graphs by
-wiring start states to accept states. Assume we are concatenating $\gA_1,
-\ldots, \gA_n$. The start states of the concatenated graph are the start
-states of the first graph, $\gA_1$. The accept states of the concatenated
-graph are the accept states of the last graph, $\gA_n$. For any two graph
-$\gA_i$ and $\gA_{i+1}$, we connect each start state of $\gA_i$ to each accept
-state of $\gA_{i+1}$ with an $\epsilon$ transition.
+connecting the accept states of one graph to the start states of the next.
+Assume we are concatenating $\gA_1, \ldots, \gA_n$. The start states of the
+concatenated graph are the start states of the first graph, $\gA_1$. The accept
+states of the concatenated graph are the accept states of the last graph,
+$\gA_n$. For any two graph $\gA_i$ and $\gA_{i+1}$, we connect each accept
+state of $\gA_i$ to each start state of $\gA_{i+1}$ with an $\epsilon$
+transition.
 
 \begin{figure}
     \centering
