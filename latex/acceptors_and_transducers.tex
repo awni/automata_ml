@@ -238,7 +238,7 @@ with $\epsilon$ transitions with a weight of $0$.
 \subsection{Transducers}
 
 A \emph{transducer} maps input strings to output strings. Transducers are a
-generalization of an acceptors. Every acceptor is a transducer, but not every
+generalization of acceptors. Every acceptor is a transducer, but not every
 transducer is an acceptor. Let's look at a few example transducers to
 understand how they work.
 
@@ -260,7 +260,7 @@ on every arc are identical.
 Instead of saying that a transducer accepts a given string, we say that it
 \emph{transduces} one string to another. The graph in
 figure~\ref{fig:simple_fst} transduces the string $ab$ to the string $xz$ and
-the string $bb$ to the string $yz$. The weights of a transduced pair is
+the string $bb$ to the string $yz$. The weight of a transduced pair is
 computed in the same way as in an acceptor. The scores of the individual arcs
 on the path are summed. The path scores are combined with \emph{log-sum-exp}.
 So the weight of the transduced pair $(ab, xz)$ in the graph in
