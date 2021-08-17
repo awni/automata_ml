@@ -62,9 +62,9 @@ nondeterministic.
         \caption{Nondeterministic}
         \label{fig:simple_nfa}
     \end{subfigure}
-    \caption{An example of a deterministic automata and a
-    nondeterministic automata. The nondeterministic automata has
-    two arcs leaving the state $2$ both with the label $c$.}
+    \caption{An example of a deterministic automata and a nondeterministic
+    automata. The nondeterministic automata has two arcs leaving state $0$ both
+    with label $a$ and two arcs leaving state $2$ both with the label $c$.}
     \label{fig:dfa_nfa}
 \end{figure}
 
@@ -99,17 +99,18 @@ $aa$ is accepted by the graph by following the state sequence $0 \rightarrow 2
 same state sequence but taking the arc with label $b$ when traversing from
 state $0$ to state $1$. The language of the acceptor is the set of all strings
 which are accepted by it. You may also encounter ``recognized'' used as a
-synonym for ``accepted''. Let the variable $\gA$ represent the above acceptor.
-In general, I'll use uppercase script letters to represent graphs. Let
-$\mathcal{L}(\gA)$ denote the language of $\gA$. In this case $\mathcal{L}(\gA)
-= \{aa, ba\}$.
+synonym for ``accepted''. Let the variable $\gA$ represent the acceptor in
+figure~\ref{fig:simple_fsa}. In general, I'll use uppercase script letters to
+represent graphs. Let $\mathcal{L}(\gA)$ denote the language of $\gA$. In this
+case $\mathcal{L}(\gA) = \{aa, ba\}$.
 
 There are different ways to compute the weight of a string accepted by the
 graph. The most common is to sum the weights of the arcs on the accepting path
-for that string. For example the string $aa$ in the above graph has a weight of
-$0 + 2 = 2$. Another option would be to multiply the weights. These two options
-correspond to interpreting the weights as either log probabilities or
-probabilities. We'll have more to say about this later.
+for that string. For example the string $aa$ in the graph in
+figure~\ref{fig:simple_fsa} has a weight of $0 + 2 = 2$. Another option would
+be to multiply the weights. These two options correspond to interpreting the
+weights as either log probabilities or probabilities. We'll have more to say
+about this later.
 
 The graph in figure~\ref{fig:multi_path} accepts the same sequence by multiple
 paths.
@@ -131,7 +132,8 @@ to denote the \emph{log-sum-exp} of the two scores $s_1$ and $s_2$:
 \begin{equation}
 \LSE(s_1, s_2) = \log \left( e^{s_1} + e^{s_2}\right).
 \end{equation}
-So the overall weight for the string $aa$ in the above graph is given by:
+So the overall weight for the string $aa$ in the graph in
+figure~\ref{fig:multi_path} is given by:
 $$
 \log \left(e^{0 + 2} + e^{1 + 3}\right) = 4.13.
 $$
@@ -182,10 +184,11 @@ following the state sequence $0 \rightarrow 1 \rightarrow 2 \rightarrow 0$.
     \label{fig:fsa_loops}
 \end{figure}
 
-The language of graphs with cycles and self-loops contain infinitely many
-strings. For example the graph above accepts any string that starts with zero
-or more $a$s and ends in $bb$. As a regular expression we write this as $a^*bb$
-where the $^*$ denotes zero or more $a$s.
+The language of a graph with cycles and self-loops contains infinitely many
+strings.  For example, the language of the graph in figure~\ref{fig:fsa_loops}
+includes any string that starts with zero or more $a$s and ends in $bb$. As a
+regular expression we write this as $a^*bb$ where the $^*$ denotes zero or more
+$a$s.
 
 The $\epsilon$ symbols has a special meaning when it is the label on an arc.
 Any arc with an $\epsilon$ label can be traversed without consuming an input
@@ -260,8 +263,8 @@ figure~\ref{fig:simple_fst} transduces the string $ab$ to the string $xz$ and
 the string $bb$ to the string $yz$. The weights of a transduced pair is
 computed in the same way as in an acceptor. The scores of the individual arcs
 on the path are summed. The path scores are combined with \emph{log-sum-exp}.
-So the weight of the transduced pair $(ab, xz)$ in the above graph is $0+3 =
-3$.
+So the weight of the transduced pair $(ab, xz)$ in the graph in
+figure~\ref{fig:simple_fst} is $0+3 = 3$.
 
 We have to generalize concept of the language from an acceptor to a transducer.
 I'll call this generalization the transduced set. Since it will always be clear

@@ -50,11 +50,11 @@ figure~\ref{fig:fsa_closure}.
 \end{figure}
 
 \begin{example}
-You might notice that the state $4$ in the above graph is not necessary.
-Consider an alternate construction for computing the closure of a graph. We
-could have made the state $0$ into an accept state and connected state $3$
-to state $0$ with an $\epsilon$ transition, as in the graph in
-figure~\ref{fig:fsa_closure_2}.
+You might notice that state $4$ in the graph in figure~\ref{fig:fsa_closure} is
+not necessary. Consider an alternate construction for computing the
+closure of a graph. We could have made the state $0$ into an accept state
+and connected state $3$ to state $0$ with an $\epsilon$ transition, as in
+the graph in figure~\ref{fig:fsa_closure_2}.
 
 \begin{figure}
     \centering
@@ -76,8 +76,9 @@ correct closure of the original graph.
 
 \begin{proof}[\unskip\nopunct]
 An example for which the alternate construction does not work is shown in the
-graph below. The language of the graph is $a^nb$ (any number of $a$'s followed
-by a $b$) and the closure is $(a^nb)^*$, or any sequence that ends with $b$.
+graph in figure~\ref{fig:fsa_pre_closure_wrong}. The language of the graph
+is $a^nb$ (any number of $a$'s followed by a $b$) and the closure is
+$(a^nb)^*$, or any sequence that ends with $b$.
 
 \begin{figure}
     \centering
@@ -163,8 +164,8 @@ individual graphs. The language of the union graph is $\{ab, aba, abaa,
 \begin{figure}
     \centering
     \includegraphics[scale=\dotscale]{figures/union}
-    \caption{The union of the three acceptors above with language $\{ab, aba,
-    abaa, \ldots\} \cup \{ba\} \cup \{ac\}$.}
+    \caption{The union of the three acceptors in figure~\ref{fig:union_inputs}
+    with language $\{ab, aba, abaa, \ldots\} \cup \{ba\} \cup \{ac\}$.}
     \label{fig:union}
 \end{figure}
 
@@ -365,9 +366,8 @@ $bbaacc$ are in the language but $b$ and $ccaab$ are not.
 First concatenate the individual graphs with themselves to get graphs which
 recognize $aa$, $bb$, and $cc$. Then take the union of the three
 concatenated graphs followed by the closure. The resulting graph is shown
-in figure~\ref{fig:fsa_repeats}. If we represent the individual automata as
-, then the equation to compute the desired graph is $\gA = (\gA_a\gA_a +
-\gA_b\gA_b + \gA_c\gA_c)^*$.
+in figure~\ref{fig:fsa_repeats}. The equation to compute the desired graph
+is $\gA = (\gA_a\gA_a + \gA_b\gA_b + \gA_c\gA_c)^*$.
 
 \begin{figure}
     \centering
