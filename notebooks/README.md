@@ -27,8 +27,13 @@ notebooks.
 
 A [zip archive](https://awnihannun.com/writing/automata_ml/notebooks.zip) is
 available with all the notebooks and figures pre-built. Alternatively the
-figures can be constructed by executing `bash figures/gen_figs.sh` from root of
-the repository. The remainder will be constructed as the notebook is executed.
+figures can be constructed by executing from the root of the repo:
+
+```
+bash figures/gen_figs.sh
+```
+
+The remainder will be constructed as the notebook is executed.
 
 ## Exporting as HTML
 
