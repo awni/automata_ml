@@ -373,7 +373,7 @@ figure~\ref{fig:asg_constrained} for the sequence $ab$ with $T=4$.
 In terms of graph operations, we can write the ASG criterion as:
 \begin{equation}
     \label{eq:asg_graph_loss}
-    p(\vy \mid \mX) = \LSE(\gA_\vy \circ \gE) - \LSE(\gE).
+    \log p(\vy \mid \mX) = \LSE(\gA_\vy \circ \gE) - \LSE(\gE).
 \end{equation}
 
 \begin{tcolorbox}[breakable, colback=white!95!black, colframe=white!45!black,
@@ -501,7 +501,7 @@ transition scores in the normalization term $Z$, we intersect $\gB$ with the
 emissions graph $\gE$. The loss function using graph operations including
 transitions becomes:
 $$
-p(\vy \mid \mX) = \LSE(\gB \circ \gA_\vy \circ \gE) - \LSE(\gB \circ \gE).
+\log p(\vy \mid \mX) = \LSE(\gB \circ \gA_\vy \circ \gE) - \LSE(\gB \circ \gE).
 $$
 We see here an example of the expressive power of a graph-based implementation
 of the loss function. In a non-graph-based implementation of ASG, the use of a
