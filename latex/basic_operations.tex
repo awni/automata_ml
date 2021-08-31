@@ -169,12 +169,12 @@ individual graphs. The language of the union graph is $\{ab, aba, abaa,
     \label{fig:union}
 \end{figure}
 
-\subsection{Concatenation}
+\subsection{Concatenate}
 
-Like union, concatenation produces a new graph given two or more graphs as
+Like union, concatenate produces a new graph given two or more graphs as
 input. The language of the concatenated graph is the set of strings which can
 be formed by any concatenation of strings from the individual graph.
-Concatenation is not commutative, the order of the input graphs matters. More
+Concatenate is not commutative, the order of the input graphs matters. More
 formally the language of the concatenated graph is given by $\{\vx_1 \ldots
 \vx_n \mid \vx_1 \in \L(\gA_1), \ldots, \vx_n \in \L(\gA_n)\}$. Occasionally, I
 will denote concatenation by placing the graphs side-by-side. So $\gA_1 \gA_2$
@@ -248,7 +248,7 @@ graphs.
         \caption{Annihilator}
         \label{fig:concat_annihilator}
     \end{subfigure}
-    \caption{The identity and the annihilator for the concatenation operation.
+    \caption{The identity and the annihilator for the concatenate operation.
     The language of the identity graph is the empty string $\{\epsilon\}$. The
     language of the annihilator graph is the empty set $\{\}$.}
     \label{fig:concat_identity_annihilator}
@@ -326,7 +326,7 @@ We've seen three basic operations so far:
         graphs. The union of two graphs $\gA_1$ and $\gA_2$ is denoted $\gA_1 +
         \gA_2$.
 
-    \item {\bf Concatenation:} The concatenated graph accepts any string which
+    \item {\bf Concatenate:} The concatenated graph accepts any string which
         can be formed by concatenating strings (respecting order) from the
         input graphs. The concatenation of two graphs $\gA_1$ and $\gA_2$ is
         denoted $\gA_1\gA_2$.
@@ -336,10 +336,10 @@ We've seen three basic operations so far:
 \begin{example}
 Assume you are given the following individual graphs $\gA_a$, $\gA_b$, and
 $\gA_c$, which recognize $a$, $b$, and $c$ respectively, as in
-figure~\ref{fig:fsa_tokens}. Using only the closure, union, and
-concatenation operations, construct the graph which recognizes any number
-of repeats of the strings $aa$, $bb$, and $cc$. For example $aabb$ and
-$bbaacc$ are in the language but $b$ and $ccaab$ are not.
+figure~\ref{fig:fsa_tokens}. Using only closure, union, and concatenate,
+construct the graph which recognizes any number of repeats of the strings
+$aa$, $bb$, and $cc$. For example $aabb$ and $bbaacc$ are in the language
+but $b$ and $ccaab$ are not.
 \end{example}
 
 \begin{proof}[\unskip\nopunct]

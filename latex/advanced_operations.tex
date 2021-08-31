@@ -372,20 +372,19 @@ You can verify this in the graph in figure~\ref{fig:compose_example}.
 
 \end{proof}
 
-\subsubsection{Intersection and Composition with $\epsilon$}
+\subsubsection{Intersect and Compose with $\epsilon$}
 \label{sec:epsilon_intersect}
 
-The basic implementation of intersection and composition we have discussed so
-far doesn't extend to $\epsilon$ transitions. Allowing $\epsilon$ transitions
-in these algorithms makes them more complicated. In this section I will
-illustrate the challenges with the naive approach and sketch at a high-level
-how to actually include $\epsilon$ transitions in the algorithms.
+The basic implementation of intersect and compose we have discussed so far
+doesn't extend to $\epsilon$ transitions. Allowing $\epsilon$ transitions in
+these algorithms makes them more complicated. In this section I will illustrate
+the challenges with a naive approach and sketch at a high-level how to actually
+account for $\epsilon$ transitions in the intersect and compose algorithms.
 
-First, consider the simpler case when only the first input graphs has
+First, consider the simpler case when only the first input graph has
 $\epsilon$ transitions. In this case, whenever we encounter an outgoing
-$\epsilon$ transition from a state in the first graph we can optionally
-traverse it without matching a corresponding arc in the second graph. Consider
-the sub-graphs in figure~\ref{fig:epsilon_intersect}.
+$\epsilon$ transition from a state in the first graph, we can optionally
+traverse it without matching a corresponding arc in the second graph.
 
 \begin{figure}
     \centering
@@ -408,12 +407,13 @@ the sub-graphs in figure~\ref{fig:epsilon_intersect}.
     \label{fig:epsilon_intersect}
 \end{figure}
 
-Suppose we are currently looking for outgoing arcs with matching labels from
-the state $(0, 0)$. When we find a matching pair, we add the new state to the
-intersected graph and add a corresponding arc. In the $\epsilon$-free case, we
-only explore the arc's with label $a$. The state $(1, 1)$ is added to the
-intersected graph and the queue to be explored. The state $(0, 0)$ is connected
-to the state $(1, 1)$ with an arc with label $a$ and weight $2$.
+Consider the sub-graphs in figure~\ref{fig:epsilon_intersect}. Suppose we are
+currently looking for outgoing arcs with matching labels from the state $(0,
+0)$. When we find a matching pair, we add the new state to the intersected
+graph and add a corresponding arc. In the $\epsilon$-free case, we only explore
+the arc's with label $a$. The state $(1, 1)$ is added to the intersected graph
+and the queue to be explored. The state $(0, 0)$ is connected to the state $(1,
+1)$ with an arc with label $a$ and weight $2$.
 
 Since state $0$ in the first graph has an outgoing $\epsilon$, we can
 optionally traverse it without traversing any arc in the second graph. In this
